@@ -9,7 +9,7 @@ if ($sesion->activa()) {
 }
 ?>
 
-<header class="masthead " style="margin-top: 65px; ">
+<header class="masthead " style="margin-top: 0; ">
     <div class="container">
         <div class="masthead-subheading">Bienvenido a Rojo Carmesi</div>
 

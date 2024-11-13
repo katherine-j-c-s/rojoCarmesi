@@ -3121,18 +3121,18 @@ textarea.form-control-lg {
 
 .btn-info {
   color: #fff;
-  background-color: #0dcaf0;
-  border-color: #0dcaf0;
+  background-color: 		#A20025;
+  border-color: #A20025;
 }
 .btn-info:hover {
   color: #fff;
-  background-color: #0baccc;
-  border-color: #0aa2c0;
+  background-color: 	#A20025;
+  border-color: 	#A20025;
 }
 .btn-check:focus + .btn-info, .btn-info:focus {
   color: #fff;
-  background-color: #0baccc;
-  border-color: #0aa2c0;
+  background-color: 	#A20025;
+  border-color: 	#A20025;
   box-shadow: 0 0 0 0.25rem rgba(49, 210, 242, 0.5);
 }
 .btn-check:checked + .btn-info, .btn-check:active + .btn-info, .btn-info:active, .btn-info.active, .show > .btn-info.dropdown-toggle {

@@ -9,21 +9,21 @@ if ($sesion->activa()) {
 }
 if (isset($_GET['Message'])) {
     print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
-  }
+}
 ?>
 <link rel="stylesheet" href="../css/stylesProducto.css">
 
 <div class="container mt-5">
-    
+
     <section class="py-2">
-    <h4 class="mt-5" style='text-align: center';>Adquiri nuestros productos</h4>
-    <h5  style='text-align: center'>   
-        <?php
+        <h4 class="mt-5" style='text-align: center' ;>Adquiri nuestros productos</h4>
+        <h5 style='text-align: center'>
+            <?php
             if (!$sesion->activa()) {
                 echo "Para realizar Compras debe ingresar como usuario o registrase";
             }
-        ?>
-    </h5>
+            ?>
+        </h5>
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 m-3 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 <?php
@@ -55,24 +55,24 @@ if (isset($_GET['Message'])) {
                             <p class="card-text">
                                 <?php
                                 echo "<p>Precio $ {$colObjProductos[$i]->getProductoPrecio()}</p>";
-                                if($sesion->activa() && $tienePermiso){
-                                    if($colObjProductos[$i]->getProductoStock()>0){
-                                echo "<p>Stock: {$colObjProductos[$i]->getProductoStock()}</p>";
+                                if ($sesion->activa() && $tienePermiso) {
+                                    if ($colObjProductos[$i]->getProductoStock() > 0) {
+                                        echo "<p>Stock: {$colObjProductos[$i]->getProductoStock()}</p>";
                                 ?>
                             </p>
-                            <?php //verificar que el rol tambien sea el rol que corresponde
-                  
-                                echo "<form action='../accion/accionCargarCarrito.php' method='post' class='text-center'>
+                    <?php //verificar que el rol tambien sea el rol que corresponde
+
+                                        echo "<form action='../accion/accionCargarCarrito.php' method='post' class='text-center'>
                            <span>Cantidad: </span>
                            <input type='number' id='compraItemCantidad' name='compraItemCantidad' min='1' max='{$colObjProductos[$i]->getProductoStock()}'>
                            <input name='idProducto' id='idProducto' type='hidden' value='{$colObjProductos[$i]->getIdProducto()}'>
                            <button class=' btn btn-warning mt-3'  type='submit'>Añadir al carrito </buttom>
                            </form>";
-                            }else{
-                                echo "<p> sin stock</p>";
-                            }
-                        }
-                           ?>
+                                    } else {
+                                        echo "<p> sin stock</p>";
+                                    }
+                                }
+                    ?>
                         </div>
                     </div>
                 <?php } ?>
