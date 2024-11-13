@@ -46,7 +46,7 @@ if (!$sesion->activa()) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cristal Shop - Compra de Cristales - Cactus y Mas</title>
+    <title>Rojo Carmesi </title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -94,13 +94,13 @@ if (!$sesion->activa()) {
                                     $idMenu = $menu->getIdmenu();
                                     $idRolActual = $rolActivo->getIdRol();
                                     $deshabilitado = $menu->getMedeshabilitado();
-    
-                                    if (($objMenupadre == null) && ($idMenu == $idRolActual) && ($deshabilitado==null) ) {
-                                        echo $menu->getMenombre(); ?>
-                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 
-                                        <?php
+                                    if (($objMenupadre == null) && ($idMenu == $idRolActual) && ($deshabilitado == null)) {
+                                        echo $menu->getMenombre(); ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+
+                            <?php
                                         //recorro el arrelgo de menu 
                                         for ($i = 0; $i < (count($arregloMenu)); $i++) {
                                             $objPadre =  $arregloMenu[$i]->getObjMenu();
@@ -109,17 +109,17 @@ if (!$sesion->activa()) {
                                                 $idPadre = $objPadre->getIdmenu();
                                                 $deshabilitado = $arregloMenu[$i]->getMedeshabilitado();
                                                 //verifico que el padre sea igual al rol actual y que no este deshabilitado y ahi imprimo
-                                                if (($idPadre == $idRolActual) && ($deshabilitado==null)) { ?>
-                                                <li>
-                                                    <a class="dropdown-item" href="<?php echo $arregloMenu[$i]->getMedescripcion(); ?>"><?php echo $arregloMenu[$i]->getMenombre(); ?></a>
-                                                </li>
-                                                <?php
+                                                if (($idPadre == $idRolActual) && ($deshabilitado == null)) { ?>
+                                        <li>
+                                            <a class="dropdown-item" href="<?php echo $arregloMenu[$i]->getMedescripcion(); ?>"><?php echo $arregloMenu[$i]->getMenombre(); ?></a>
+                                        </li>
+                    <?php
                                                 }
                                             }
                                         }
                                     }
                                 }
-                                ?>
+                    ?>
                         </ul>
                     </li>
 
@@ -149,7 +149,7 @@ if (!$sesion->activa()) {
                         </li>
 
                     <?php
-                        }
+                    }
                     echo "<li class='navbar-nav pull-xl-right'> <a class='nav-link' href='../ejercicios/cambiarDatosUsuario.php' >Usuario: {$objUsuario->getUsNombre()}</br>Rol: {$sesion->getRolActivo()->getRolDescripcion()} <br> Modificar sus datos</br> </a></li>";
                     // echo "<li class='navbar-nav pull-xl-right'> <a class='nav-link'>Rol: </a></li>";
                     ?>
@@ -187,12 +187,12 @@ if (!$sesion->activa()) {
 
 
 </nav>
-            <?php 
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-                echo "<br>";
-            ?>
+<?php
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+echo "<br>";
+?>
 
 <body id="page-top">
