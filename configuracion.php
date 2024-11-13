@@ -5,7 +5,7 @@ header ("Cache-Control: no-cache, must-revalidate ");
 // CONFIGURACION APP//
 /////////////////////////////
 
-$PROYECTO ='TPFINALPWD/rojocarmesi/';
+$PROYECTO ='rojocarmesi/';
 
 //variable que almacena el directorio del proyecto
 $ROOT =$_SERVER['DOCUMENT_ROOT']."/$PROYECTO";
