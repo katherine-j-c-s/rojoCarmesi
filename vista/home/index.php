@@ -115,7 +115,7 @@ if ($sesion->activa()) {
                 </div>
             </li>
             <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="../assets/img/about/4.png" alt="..." /></div>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="../assets/img/about/cuatro.png" alt="..." /></div>
                 <div class="timeline-panel">
                     <div class="timeline-body">
                         <p class="text-muted">
