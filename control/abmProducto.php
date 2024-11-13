@@ -108,11 +108,12 @@ class abmProducto
         }
         return $resp;
     }
-
+// lo que hace es crear un directorio con el id del producto en la carpeta de imagenes
     public function altaImagen($objProducto, $param)
     {
+        //creo el directorio 
         $directorio = md5($objProducto->getIdProducto());
-
+//creo el directorio
         mkdir($GLOBALS['IMAGENES'] . $directorio, 0777);
     }
 

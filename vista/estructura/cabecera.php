@@ -37,7 +37,7 @@ error_reporting(0);
         <a class="nav-link text-black" href="../ejercicios/mostrarProductos.php">Productos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-black" href="../home/index.php#quienesSomos">¿Que trata la novela?</a>
+        <a class="nav-link text-black" href="../home/index.php#quienesSomos">¿Quienes somos ?</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-black" href="../home/index.php#contact">Contacto</a>

@@ -11,7 +11,7 @@ if ($sesion->activa()) {
 
 <header class="masthead " style="margin-top: 0; ">
     <div class="container">
-        <a type="button"  href="../ejercicios/mostrarProductos.php" class="btn btn-primary btn-xl text-uppercase">conoce nuestros productos</a>
+        <a type="button" href="../ejercicios/mostrarProductos.php" class="btn btn-primary btn-xl text-uppercase">conoce nuestros productos</a>
     </div>
 </header>
 <!-- Navigation-->
@@ -84,7 +84,7 @@ if ($sesion->activa()) {
         </div>
         <ul class="timeline">
             <li>
-            <div class="timeline-image"><img class="rounded-circle img-fluid" src="../assets/img/about/1.png" alt="..." /></div>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="../assets/img/about/1.png" alt="..." /></div>
                 <div class="timeline-panel">
 
                     <div class="timeline-body">
@@ -99,7 +99,7 @@ if ($sesion->activa()) {
                 <div class="timeline-panel">
                     <div class="timeline-body">
                         <p class="text-muted">
-                            Somos el sueño que comenzó con mis abuelos, Khalil y Leticia. Mi abuelo no solo veía a mi abuela como una mujer hermosa, sino como una fuerza de libertad y autenticidad. 
+                            Somos el sueño que comenzó con mis abuelos, Khalil y Leticia. Mi abuelo no solo veía a mi abuela como una mujer hermosa, sino como una fuerza de libertad y autenticidad.
                     </div>
                 </div>
             </li>
@@ -108,7 +108,7 @@ if ($sesion->activa()) {
                 <div class="timeline-panel">
                     <div class="timeline-body">
                         <p class="text-muted">
-                        Él creó para ella un labial único, hecho con amor, para que cada vez que lo usara, recordara lo especial que era y cómo podía iluminar cualquier lugar con su presencia.
+                            Él creó para ella un labial único, hecho con amor, para que cada vez que lo usara, recordara lo especial que era y cómo podía iluminar cualquier lugar con su presencia.
                         </p>
                         </p>
                     </div>
@@ -119,7 +119,7 @@ if ($sesion->activa()) {
                 <div class="timeline-panel">
                     <div class="timeline-body">
                         <p class="text-muted">
-                        Esa historia de amor me marcó profundamente. Soy Juana, su nieta, y cuando conocí lo que significó ese labial para ellos, sentí la necesidad de compartirlo con el mundo. No se trata solo de un producto; se trata de lo que representa. Khalil veía a Leticia como alguien que merecía ser libre, auténtica, y amada por lo que era. Y yo quise que cada mujer pudiera sentir eso también.
+                            Esa historia de amor me marcó profundamente. Soy Juana, su nieta, y cuando conocí lo que significó ese labial para ellos, sentí la necesidad de compartirlo con el mundo. No se trata solo de un producto; se trata de lo que representa. Khalil veía a Leticia como alguien que merecía ser libre, auténtica, y amada por lo que era. Y yo quise que cada mujer pudiera sentir eso también.
                         </p>
                     </div>
                 </div>
@@ -129,7 +129,7 @@ if ($sesion->activa()) {
                 <div class="timeline-panel">
                     <div class="timeline-body">
                         <p class="text-muted">
-                        Por eso fundé "Rojo Carmesí." Somos una empresa que no solo vende labiales, sino que lleva en cada uno de ellos una historia: la de un amor que celebró la libertad y la belleza en su forma más pura. Somos una forma de decirle al mundo que cada uno de nosotros puede brillar siendo simplemente quien es.
+                            Por eso fundé "Rojo Carmesí." Somos una empresa que no solo vende labiales, sino que lleva en cada uno de ellos una historia: la de un amor que celebró la libertad y la belleza en su forma más pura. Somos una forma de decirle al mundo que cada uno de nosotros puede brillar siendo simplemente quien es.
                         </p>
                         </p>
                     </div>
@@ -142,7 +142,7 @@ if ($sesion->activa()) {
                         <br />
                         de amor
                         <br />
-                        
+
                     </h4>
                 </div>
             </li>
@@ -221,21 +221,16 @@ if ($sesion->activa()) {
                     <div class="col-lg-8">
                         <div class="modal-body">
                             <!-- Project details-->
-                            <h2 class="text-uppercase">Feria Neuquen Emprende</h2>
-                            <p class="item-intro text-muted">Veni y disfruta de la feria en Neuquen</p>
+                            <h2 class="text-uppercase">Nueva sucursal</h2>
+                            <p class="item-intro text-muted">Veni y disfruta de nuestros productos </p>
                             <img class="img-fluid d-block mx-auto" src="../assets/img/proximosEventos/3.png" alt="..." />
-                            <p>
-                                "Neuquén Emprende” se trata de una iniciativa impulsada por la Legislatura de Neuquén en conjunto con los municipios de Neuquén capital, Zapala y San Martín de los Andes, cuenta con el apoyo del BPN, y tiene como objetivo seguir impulsando el desarrollo de los emprendedores de la provincia. Estas capacitaciones se suman a los diversos espacios de comercialización de productos, actividades y encuentros que se vienen llevando adelante, lo que permite acercar nuevas instancias de formación gratuitas y acompañamiento de calidad.
-                            </p>
+
                             <ul class="list-inline">
                                 <li>
-                                    <strong>Desarrolla:</strong>
-                                    Municipalidad de Neuquen
+                                    <strong>Direccion:</strong>
+                                    Av. Argentina 512 Neuquén
                                 </li>
-                                <li>
-                                    <strong>Categoria:</strong>
-                                    Emprendedurismo
-                                </li>
+
                             </ul>
                             <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
                                 <i class="fas fa-times me-1"></i>
@@ -259,20 +254,16 @@ if ($sesion->activa()) {
                     <div class="col-lg-8">
                         <div class="modal-body">
                             <!-- Project details-->
-                            <h2 class="text-uppercase">Talleres Culturales</h2>
-                            <p class="item-intro text-muted">Segunda Etapa</p>
+                            <h2 class="text-uppercase">Sede central </h2>
+                            <p class="item-intro text-muted">Veni y disfruta de nuestros productos</p>
                             <img class="img-fluid d-block mx-auto" src="../assets/img/proximosEventos/1.png" alt="..." />
-                            <p>Mediante los talleres culturales barriales la Municipalidad de Neuquén contribuye a descentralizar la propuesta cultural de la ciudad, garantizar el desarrollo artístico, favorecer la equidad territorial y la ampliación del acceso de bienes y servicios artísticos y culturales a la mayor cantidad de habitantes de la ciudad, respetando y haciendo valer el derecho que toda persona tiene de formar parte libremente de la vida cultural de su comunidad.
-                                Para más información: Teodoro Planas 155/ tel 4491216 – Mail: talleresculturales@muninqn.gov.ar</p>
+
                             <ul class="list-inline">
                                 <li>
-                                    <strong>Desarrolla:</strong>
-                                    Municipalidad de Neuquen
+                                    <strong>Direccion:</strong>
+                                    Las rosas 169 Los Hornillos Cordoba
                                 </li>
-                                <li>
-                                    <strong>Categoria:</strong>
-                                    Emprendedurismo
-                                </li>
+
                             </ul>
                             <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
                                 <i class="fas fa-times me-1"></i>
@@ -300,39 +291,19 @@ if ($sesion->activa()) {
                             <img class="img-fluid d-block mx-auto" src="../assets/img/proximosEventos/2.png" alt="..." />
                             <p>
                                 Este sábado de 9 a 14hs podés visitar tu feria ⁣
-                                • Parque Central⁣
-                                Sarmiento y Vecinalistas Neuquinos⁣⁣⁣
+                                • Es una feria de emprendimientos locales , manejados por mujeres emprendedoras.⁣
+                                
                                 ⁣
-                                •Villa Ceferino⁣⁣⁣
-                                Combate de San Lorenzo y Pedro Moreno⁣
-                                ⁣
-                                • Unión de Mayo⁣
-                                Dr. Ramón, Cancha de Boca⁣
-                                ⁣
-                                • Novella y Racedo⁣.
-                                𝐅𝐞𝐫𝐢𝐚 𝐝𝐞 𝐀𝐫𝐜𝐨𝐬 𝐑𝐨𝐦𝐚𝐧𝐨𝐬
-                                Sábado de 9 a 14hs
-                                Sarmiento y San Luis
-                                Recordá utilizar correctamente el barbijo y respetar la distancia social.
-                                ¡Vení a conocer los productos que elaboran nuestros emprendedores!
-                                3
-                                Actividades Relacionadas
-                                Municipalidad de Neuquén
-                                Avda. Argentina y Roca
 
-                                + 54 0299 449 1200
+                                ⁣
 
-                                ciudadano@muninqn.gov.ar
                             </p>
                             <ul class="list-inline">
                                 <li>
-                                    <strong>Desarrolla:</strong>
-                                    Municipalidad de Neuquen
+                                    <strong>Direccion:</strong>
+                                    San Martin 212 Cipolletti
                                 </li>
-                                <li>
-                                    <strong>Categoria:</strong>
-                                    Cultura - Feria - Desarrollo
-                                </li>
+
                             </ul>
                             <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
                                 <i class="fas fa-times me-1"></i>
