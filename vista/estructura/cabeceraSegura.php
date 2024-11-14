@@ -91,33 +91,48 @@ if (!$sesion->activa()) {
                 <li class="nav-item">
                     <a class="nav-link text-black" href="../ejercicios/crearProducto.php">Crear Producto</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Editar Menu</a>
-                </li>
+                <?php
+                    if ($idRol == 1) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Editar Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Agregar Permisos</a>
+                    </li>
+                <?php
+                    }
+                ?>
                 <li class="nav-item dropdown">
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <a href="../ejercicios/carrito.php" class="btn btn-outline-dark"><i class="fas fa-shopping-cart mr-3" style="color: black;"></i></a>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
-                                <?php
-                                if ($sesion->getCarrito() == null) {
-                                    echo "0";
-                                } else {
-                                    echo count($sesion->getCarrito());
-                                } ?>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                            <?php
+                            if ($sesion->getCarrito() == null) {
+                                echo "0";
+                            } else {
+                                echo count($sesion->getCarrito());
+                            } ?>
 
-                            </span>
-                        <a class="nav-link text-black btn btn-outline-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li class="dropdown-item">
-                                Usurario:<?php echo $objUsuario->getUsNombre()?>
-                            </li>
-                            <li class="dropdown-item">
-                                Rol:<?php echo $sesion->getRolActivo()->getRolDescripcion()?>
-                            </li>
-                            <li><a class="dropdown-item" href="../ejercicios/cambiarDatosUsuario.php#">Modificar Usuario</a></li>
-                        </ul>
+                        </span>
+                        <?php
+                            if ($idRol == 1) {
+                        ?>
+                            <a class="nav-link text-black btn btn-outline-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li class="dropdown-item">
+                                    Usurario:<?php echo $objUsuario->getUsNombre()?>
+                                </li>
+                                <li class="dropdown-item">
+                                    Rol:<?php echo $sesion->getRolActivo()->getRolDescripcion()?>
+                                </li>
+                                <li><a class="dropdown-item" href="../ejercicios/cambiarDatosUsuario.php#">Modificar Usuario</a></li>
+                            </ul>
+                        <?php
+                            }
+                        ?>
                         <a href="../accion/cerrarSesion.php" class="btn btn-outline-dark"> <i class="fas fa-sign-in-alt"></i>Log Out </a>
                     </div>
                 </li>
