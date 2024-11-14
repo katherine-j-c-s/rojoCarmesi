@@ -13,7 +13,7 @@ if (isset($_GET['Message'])) {
 ?>
 <link rel="stylesheet" href="../css/stylesProducto.css">
 
-<div class="container mt-5">
+<div class="container mt-5 ">
 
     <section class="py-2">
         <h4 class="mt-5" style='text-align: center' ;>Adquiri nuestros productos</h4>
@@ -37,9 +37,10 @@ if (isset($_GET['Message'])) {
                     $arregloArchivos = $abmProducto->obtenerArchivos(md5($colObjProductos[$i]->getIdProducto()));
 
                 ?>
-                    <div class="card m-3 class='text-center'" style="width: 18rem; border:3px solid">
+                    <!-- <div class="card m-3 " style="width: 18rem; border:3px solid"> -->
+                    <div class="card m-3 shadow " style="width: 18rem; border-radius: 15px; overflow: hidden; height:500px;">
                         <?php
-                        echo "<img src='$arregloArchivos' style='max-width: 400px; widht:400px; '  class='img-fluid' alt='productos'>";
+                        echo "<img src='$arregloArchivos' style='max-width: 300px; widht:300px; height:300px '  class='img-fluid' alt='productos'>";
                         ?>
                         <div class="card-body class='text-center'">
                             <h5 class="card-title">
@@ -59,7 +60,9 @@ if (isset($_GET['Message'])) {
                                     if ($colObjProductos[$i]->getProductoStock() > 0) {
                                         echo "<p>Stock: {$colObjProductos[$i]->getProductoStock()}</p>";
                                 ?>
+
                             </p>
+
                     <?php //verificar que el rol tambien sea el rol que corresponde
 
                                         echo "<form action='../accion/accionCargarCarrito.php' method='post' class='text-center'>
