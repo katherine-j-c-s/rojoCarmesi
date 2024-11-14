@@ -36,6 +36,7 @@ if ($tienePermiso == false) {
                     <label for="exampleInputPassword1" class="form-label">Imagen</label>
                     <input class='form-control' id='productoImagen' name='productoImagen' type='file' accept="image/png, .jpeg, .jpg, image/gif" required>
                 </div>
+
                 <div class="mb-3">
                     <p id="invalido"></p>
                 </div>

@@ -23,15 +23,16 @@ class abmProducto
         //El control del tipo ya lo tengo en el formulario, asi que no lo voy a controlar acá.
         //Si, voy a controlar el tema del tamaño
 
-        if ($todoOK && $_FILES['productoImagen']["size"] / 1024 > 300) {
-            $error = "ERROR: El archivo " . $nombreArchivoImagen . " supera los 300 KB.";
-            $todoOK = false;
-        }
+        // if ($todoOK && $_FILES['productoImagen']["size"] / 1024 > 300) {
+        //     $error = "ERROR: El archivo " . $nombreArchivoImagen . " supera los 300 KB.";
+        //     $todoOK = false;
+        // }
 
         if ($todoOK && !copy($_FILES['productoImagen']['tmp_name'], $dir . $nombreArchivoImagen)) {
             $texto = "ERROR: no se pudo cargar el archivo de imagen.";
             $todoOK = false;
         }
+        if($error) echo $error;
         return $todoOK;
     }
 
@@ -109,13 +110,13 @@ class abmProducto
         return $resp;
     }
 // lo que hace es crear un directorio con el id del producto en la carpeta de imagenes
-    public function altaImagen($objProducto, $param)
-    {
-        //creo el directorio 
-        $directorio = md5($objProducto->getIdProducto());
-//creo el directorio
-        mkdir($GLOBALS['IMAGENES'] . $directorio, 0777);
-    }
+    // public function altaImagen($objProducto, $param)
+    // {
+    //     //creo el directorio 
+    //     $directorio = md5($objProducto->getIdProducto());
+
+    //     mkdir($GLOBALS['IMAGENES'] . $directorio, 0777);
+    // }
 
     /**
      * permite modificar un objeto
@@ -174,7 +175,7 @@ class abmProducto
             ];
             $objProducto = $this->buscar($busqueda);
             $idProductoImagen = md5($objProducto[0]->getIdProducto());
-        if($cargarImagen=$this->subirArchivo($idProductoImagen)){
+        if($this->subirArchivo($idProductoImagen)){
             if ($producto) {
                 $mensaje = "El producto se creó con exito";
                 header("Location: ../ejercicios/mostrarProductos.php?Message=" . urlencode($mensaje));

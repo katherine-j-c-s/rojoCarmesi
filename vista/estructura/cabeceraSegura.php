@@ -65,17 +65,17 @@ if (!$sesion->activa()) {
     <script type="text/javascript" src="../js/jquery-easyui-1.6.6/jquery.easyui.min.js"></script>
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" id="mainNav">
+<nav class="navbar navbar-expand-lg bg-white navbar-ligth shadow-lg fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="../home/index.php#page-top"><img src="../assets/img/logos/logo.png" alt="..." /></a>
+        <a class="navbar-brand" href="../home/index.php#page-top"><img src="../assets/img/logos/logo2.png" alt="..." /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars ms-1"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-            <ul class="navbar-nav">
+            <!-- <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link text-black" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Navegacion
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
@@ -83,76 +83,96 @@ if (!$sesion->activa()) {
                         <li><a class="dropdown-item" href="../home/index.php#quienesSomos">¿Quienes Somos?</a></li>
                         <li><a class="dropdown-item" href="../home/index.php#contact">Contacto</a></li>
                     </ul>
-                </li>
-                <! –– Menu Dinamico ––>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <! –– Busco el Padre Segun el Rol ––>
-                                <?php
-                                foreach ($arregloMenu as $menu) {
-                                    $objMenupadre = $menu->getObjMenu();
-                                    $idMenu = $menu->getIdmenu();
-                                    $idRolActual = $rolActivo->getIdRol();
-                                    $deshabilitado = $menu->getMedeshabilitado();
+                </li> -->
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../home/index.php#page-top">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../home/index.php#proximosEventos">Próximos Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../ejercicios/mostrarProductos.php">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../home/index.php#quienesSomos">¿Quienes somos ?</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../home/index.php#contact">Contacto</a>
+                    </li>
 
-                                    if (($objMenupadre == null) && ($idMenu == $idRolActual) && ($deshabilitado == null)) {
-                                        echo $menu->getMenombre(); ?>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-
+                </ul>
+            </div>
+            <! –– Menu Dinamico ––>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <! –– Busco el Padre Segun el Rol ––>
                             <?php
-                                        //recorro el arrelgo de menu 
-                                        for ($i = 0; $i < (count($arregloMenu)); $i++) {
-                                            $objPadre =  $arregloMenu[$i]->getObjMenu();
-                                            // verifico que sea hijo si el padre es distinto de nul
-                                            if ($objPadre != null) {
-                                                $idPadre = $objPadre->getIdmenu();
-                                                $deshabilitado = $arregloMenu[$i]->getMedeshabilitado();
-                                                //verifico que el padre sea igual al rol actual y que no este deshabilitado y ahi imprimo
-                                                if (($idPadre == $idRolActual) && ($deshabilitado == null)) { ?>
-                                        <li>
-                                            <a class="dropdown-item" href="<?php echo $arregloMenu[$i]->getMedescripcion(); ?>"><?php echo $arregloMenu[$i]->getMenombre(); ?></a>
-                                        </li>
-                    <?php
-                                                }
+                            foreach ($arregloMenu as $menu) {
+                                $objMenupadre = $menu->getObjMenu();
+                                $idMenu = $menu->getIdmenu();
+                                $idRolActual = $rolActivo->getIdRol();
+                                $deshabilitado = $menu->getMedeshabilitado();
+
+                                if (($objMenupadre == null) && ($idMenu == $idRolActual) && ($deshabilitado == null)) {
+                                    echo $menu->getMenombre(); ?>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+
+                        <?php
+                                    //recorro el arrelgo de menu 
+                                    for ($i = 0; $i < (count($arregloMenu)); $i++) {
+                                        $objPadre =  $arregloMenu[$i]->getObjMenu();
+                                        // verifico que sea hijo si el padre es distinto de nul
+                                        if ($objPadre != null) {
+                                            $idPadre = $objPadre->getIdmenu();
+                                            $deshabilitado = $arregloMenu[$i]->getMedeshabilitado();
+                                            //verifico que el padre sea igual al rol actual y que no este deshabilitado y ahi imprimo
+                                            if (($idPadre == $idRolActual) && ($deshabilitado == null)) { ?>
+                                    <li>
+                                        <a class="dropdown-item" href="<?php echo $arregloMenu[$i]->getMedescripcion(); ?>"><?php echo $arregloMenu[$i]->getMenombre(); ?></a>
+                                    </li>
+                <?php
                                             }
                                         }
                                     }
                                 }
-                    ?>
+                            }
+                ?>
+                    </ul>
+                </li>
+
+                <!-- cortamos linea 103 lo anterior -->
+                <?php
+                $listaRoles = $sesion->getColeccionRol();
+                if (count($listaRoles) > 1) {
+
+                ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class=" nav-link text-black"></i>Cambiar Rol
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+
+                            <?php
+                            $span = "";
+                            foreach ($listaRoles as $rol) {
+                                $idRol = $rol->getIdRol();
+                                $span = "<li class='dropdown-item'>{$rol->getRolDescripcion()}<span class='fas fa-users'></span></li>";
+                                echo "<a class='nav-link' href='../accion/accionseleccionarRol.php?idRol=$idRol'>{$span}</a>";
+                            }
+
+                            ?>
                         </ul>
+
                     </li>
 
-                    <!-- cortamos linea 103 lo anterior -->
-                    <?php
-                    $listaRoles = $sesion->getColeccionRol();
-                    if (count($listaRoles) > 1) {
-
-                    ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class=" fas fa-user-cog"></i>Cambiar Rol
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-
-                                <?php
-                                $span = "";
-                                foreach ($listaRoles as $rol) {
-                                    $idRol = $rol->getIdRol();
-                                    $span = "<li class='dropdown-item'>{$rol->getRolDescripcion()}<span class='fas fa-users'></span></li>";
-                                    echo "<a class='nav-link' href='../accion/accionseleccionarRol.php?idRol=$idRol'>{$span}</a>";
-                                }
-
-                                ?>
-                            </ul>
-
-                        </li>
-
-                    <?php
-                    }
-                    echo "<li class='navbar-nav pull-xl-right'> <a class='nav-link' href='../ejercicios/cambiarDatosUsuario.php' >Usuario: {$objUsuario->getUsNombre()}</br>Rol: {$sesion->getRolActivo()->getRolDescripcion()} <br> Modificar sus datos</br> </a></li>";
-                    // echo "<li class='navbar-nav pull-xl-right'> <a class='nav-link'>Rol: </a></li>";
-                    ?>
+                <?php
+                }
+                echo "<li class='navbar-nav pull-xl-right'> <a class='nav-link' href='../ejercicios/cambiarDatosUsuario.php' >Usuario: {$objUsuario->getUsNombre()}</br>Rol: {$sesion->getRolActivo()->getRolDescripcion()} <br> Modificar sus datos</br> </a></li>";
+                // echo "<li class='navbar-nav pull-xl-right'> <a class='nav-link'>Rol: </a></li>";
+                ?>
 
         </div>
 

@@ -24,6 +24,8 @@ form.addEventListener('submit', e => {
     console.log('buenass')
     numeroNegativo(inputNombre)
 
+
+    try{
     if (cadenaVacia(inputNombre)) {
         if (!tipoNumero(inputNombre)) {
             if (longitudCadena(inputNombre)) {
@@ -90,13 +92,18 @@ form.addEventListener('submit', e => {
 
 
     if (b1 && b2 && b3 && b4) {
+        console.log('todo bien')
         form.submit()
+
     }else{
         insertar = `<small class='alert alert-danger' style='color:red' >${e1}${e2}${e3}${e4}</small>`
         invalido.innerHTML = insertar
         console.log(insertar)
     }
-
+    }catch(e){
+        console.log(e);
+    }
+    console.log('chau')
 } )
 
 
