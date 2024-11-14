@@ -171,7 +171,7 @@ INSERT INTO `usuario` (`usNombre`, `usPass`, `usMail`, `usDesabilitado`) VALUES
 ( 'admin', 'd396d55189db35d2cddc82ba7742b129', 'admin@cristalshop.com.ar', NULL),
 ('Cliente', 'd396d55189db35d2cddc82ba7742b129', 'cliente@cliente.com.ar', NULL),
 ( 'Deposito', 'd396d55189db35d2cddc82ba7742b129', 'desposito@clistalshop.com.ar', NULL),
-( 'multirol', 'd396d55189db35d2cddc82ba7742b129', 'multirol@cristalshop.com.ar', NULL);
+;
 
 
 -- Tabla usuariorol
@@ -188,7 +188,6 @@ CREATE TABLE usuariorol (
 --
 INSERT INTO `usuariorol` (`idUsuario`, `idRol`) VALUES
 (1, 1),
-(2, 1),
-(3, 3),
-(4, 2),
-(5, 3);
+(2, 3),
+(3, 2);
+

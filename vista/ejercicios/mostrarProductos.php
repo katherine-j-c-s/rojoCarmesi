@@ -38,7 +38,7 @@ if (isset($_GET['Message'])) {
 
                 ?>
                     <!-- <div class="card m-3 " style="width: 18rem; border:3px solid"> -->
-                    <div class="card m-3 shadow " style="width: 18rem; border-radius: 15px; overflow: hidden; height:500px;">
+                    <div class="card m-3 shadow " style="width: 18rem; border-radius: 15px; overflow: hidden; height:550px;">
                         <?php
                         echo "<img src='$arregloArchivos' style='max-width: 300px; widht:300px; height:300px '  class='img-fluid' alt='productos'>";
                         ?>
@@ -63,20 +63,27 @@ if (isset($_GET['Message'])) {
 
                             </p>
 
+
+
                     <?php //verificar que el rol tambien sea el rol que corresponde
 
                                         echo "<form action='../accion/accionCargarCarrito.php' method='post' class='text-center'>
-                           <span>Cantidad: </span>
-                           <input type='number' id='compraItemCantidad' name='compraItemCantidad' min='1' max='{$colObjProductos[$i]->getProductoStock()}'>
-                           <input name='idProducto' id='idProducto' type='hidden' value='{$colObjProductos[$i]->getIdProducto()}'>
-                           <button class=' btn btn-warning mt-3'  type='submit'>Añadir al carrito </buttom>
-                           </form>";
+                            <span>Cantidad: </span>
+                            <input type='number' id='compraItemCantidad' name='compraItemCantidad' min='1' max='{$colObjProductos[$i]->getProductoStock()}'>
+                            <input name='idProducto' id='idProducto' type='hidden' value='{$colObjProductos[$i]->getIdProducto()}'>
+                            <button class=' btn btn-warning mt-3'  type='submit'>Añadir al carrito </buttom>
+                            </form>";
                                     } else {
                                         echo "<p> sin stock</p>";
                                     }
                                 }
                     ?>
+                    <button class="btn btn-primary d-flex align-items-center gap-2 text-center" style="width: 200px;" onclick="agregarCarrito()">
+                        <i class="bi bi-cart"></i>
+                        Agregar al carrito
+                    </button>
                         </div>
+
                     </div>
                 <?php } ?>
             </div>
