@@ -98,7 +98,7 @@ if (!$sesion->activa()) {
                         <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Editar Menu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Agregar Permisos</a>
+                        <a class="nav-link text-black" href="../ejercicios/listarUsuarios.php">Agregar Permisos</a>
                     </li>
                 <?php
                     }

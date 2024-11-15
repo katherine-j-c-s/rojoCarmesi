@@ -1,6 +1,10 @@
 <?php
 include_once "../../configuracion.php";
 include_once "../estructura/cabeceraSegura.php";
+$sesion = new session();
+$objRol=$sesion->getRolActivo();
+$idRol=$objRol->getIdRol();
+
 $objControl = new AbmMenu();
 $List_Menu = $objControl->buscar(null);
 $combo = '<select class="easyui-combobox"  id="idpadre"  name="idpadre" label="Submenu de?:" labelPosition="top" style="width:90%;">
@@ -10,7 +14,7 @@ foreach ($List_Menu as $objMenu) {
 }
 
 
-if ($tienePermiso == false) {
+if ($idRol != 1) {
     echo "</br></br></br></br></br></br>";
     echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
 } else {
