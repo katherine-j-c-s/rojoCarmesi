@@ -30,6 +30,9 @@ if ($idRol != 1) {
 
   <div class="container mt-5">
     <h1>Panel de administracion de Menu</h1>
+    <a class=" btn btn-dark text-white" href="editarMenu.php" role="button">
+      Editar Menu
+    </a>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -81,7 +84,7 @@ if ($idRol != 1) {
           } else {
             echo "<td class='text-center'><i class='far fa-times-circle'></i></td>";
           }
-          echo "<form action='editarUsuarioSinJquery.php' method='post'>
+          echo "<form action='editarMenu.php' method='post'>
         <td class='text-center'>
         <input name='idmenu' id='idmenu' type='hidden' value='$idMenu'>
         <button class='btn btn-dark' type='submit'><i class='fas fa-edit'></i>

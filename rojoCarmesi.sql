@@ -53,6 +53,21 @@ CREATE TABLE compraitem (
     FOREIGN KEY (idProducto) REFERENCES producto(idProducto)
 );
 	
+-- Tabla rol
+CREATE TABLE rol (
+    idRol BIGINT(20) NOT NULL AUTO_INCREMENT,
+    roDescripcion VARCHAR(50) NOT NULL,
+    PRIMARY KEY (idRol)
+);
+
+----
+-- Volcado de datos para la tabla `rol`
+-----
+
+INSERT INTO `rol` (`idRol`, `rolDescripcion`) VALUES
+(1, 'Admin'),
+(2, 'Deposito'),
+(3, 'Cliente');
 
 -- Tabla menu
 CREATE TABLE menu (
@@ -70,20 +85,23 @@ CREATE TABLE menu (
 --
 -- Volcado de datos para la tabla `menu`
 --
-INSERT INTO `menu` ( `menombre`, `medescripcion`, `idpadre`, `medeshabilitado`) VALUES
-( 'Administrador', 'padre', NULL, '2021-11-22 13:26:04'),
-( 'Deposito', 'padre', NULL, '2021-11-22 13:26:10'),
-( 'Cliente', 'padre', NULL, '2021-11-22 13:26:15'),
-( 'Administrar Productos', '../ejercicios/listarProductos.php', 2, NULL),
-( 'Administrar Compras', '../ejercicios/administrarCompras.php', 3, NULL),
-( 'Editar Menu', '../ejericicos/menu_list.php', 1, NULL),
-( 'Editar Usuarios', '../ejercicios/listarUsuarios.php', 1, NULL),
-( 'carrito', '../ejercicios/carrito.php', 3, NULL),
-( 'Crear Producto', '../ejercicios/crearProducto.php', 2, '2021-11-22 13:09:36'),
-( 'Editar Productos', '../ejericicios/editarProducto.php', 3, '2021-11-22 13:09:48'),
-( 'Nuestro Productos', '../ejercicios/mostrarProductos.php', 3, NULL),
-( 'Mis Compras', '../ejercicios/comprasUsuario.php', 3, NULL);
-
+INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado) VALUES
+('Navegacion', 'padre', NULL, NULL),
+('Productos', 'padre', NULL, NULL),
+('Administracion', 'padre', NULL, NULL),
+('Usuario', 'padre', NULL, NULL),
+('Inicio Usuario', '../home/index.php#page-top', 1, NULL),
+('Proximos Eventos', '../home/index.php#proximoseventos', 1, NULL),
+('Quienes Somos', '../home/index.php#quienesSomos', 1, NULL),
+('Contacto', '../home/index.php#contact', 1, NULL),
+('Vista Productos', '../ejercicios/MostrarProductos.php', 2, NULL),
+('Administrar Productos', '../ejercicios/listarProductos.php', 2, NULL),
+('Crear Producto', '../ejercicios/crearProducto.php', 2, NULL),
+('Editar Menu', '../ejercicios/listarMenu.php', 3, NULL),
+('Agregar Permisos', '../ejercicios/listarUsuarios.php', 3, NULL),
+('Carrito', '../ejercicios/carrito.php', 4, NULL),
+('Modificar Usuario', '../ejercicios/cambiarDatosUsuario.php', 4, NULL),
+('Cerrar Sesion', '../accion/cerrarSesion.php', 4, NULL);
 
 
 
@@ -100,19 +118,42 @@ CREATE TABLE menurol (
 --
 -- Volcado de datos para la tabla `menurol`
 --
-INSERT INTO `menurol` (`idmenu`, `idRol`) VALUES
+INSERT INTO menu_roles (idmenu, idRol) VALUES
 (1, 1),
+(1, 2),
+(2, 1),
 (2, 2),
-(3, 3),
+(2, 3),
+(3, 1),
+(4, 1),
 (4, 2),
+(4, 3),
+(5, 1),
 (5, 2),
+(5, 3),
 (6, 1),
+(6, 2),
+(6, 3),
 (7, 1),
+(7, 2),
+(7, 3),
+(8, 1),
+(8, 2),
 (8, 3),
-(9, 3);
-
-
-
+(9, 1),
+(9, 2),
+(9, 3),
+(10, 2),
+(11, 2),
+(12, 1),
+(13, 1),
+(14, 1),
+(14, 2),
+(14, 3),
+(15, 1),
+(16, 1),
+(16, 2),
+(16, 3);
 
 
 -- Tabla producto
@@ -136,23 +177,6 @@ INSERT INTO `producto` (`productoNombre`, `productoDetalle`,`productoStock`, `pr
 ('kit biscus', 'kit biscus',200, 6000),
 ('Sombras', 'Sombras calidas',200, 6000),
 ('Oleos', 'Oleos Naturales',200, 5000);
-
--- Tabla rol
-CREATE TABLE rol (
-    idRol BIGINT(20) NOT NULL AUTO_INCREMENT,
-    roDescripcion VARCHAR(50) NOT NULL,
-    PRIMARY KEY (idRol)
-);
-
-----
--- Volcado de datos para la tabla `rol`
------
-
-INSERT INTO `rol` (`idRol`, `rolDescripcion`) VALUES
-(1, 'Admin'),
-(2, 'Deposito'),
-(3, 'Cliente');
-
 
 -- Tabla usuario
 CREATE TABLE usuario (

@@ -54,13 +54,6 @@ if ($idRol != 1) {
                 </div>
                 <div style="margin-bottom:10px">
                     <?php
-                //     $List_Menu = $objControl->buscar(null);
-                //     $combo = '<select class="easyui-combobox"  id="idpadre"  name="idpadre" label="Submenu de?:" labelPosition="top" style="width:90%;">
-                // <option></option>';
-                //     foreach ($List_Menu as $objMenu) {
-                //         $combo .= '<option value="' . $objMenu->getIdmenu() . '">' . $objMenu->getMenombre() . ':' . $objMenu->getMedescripcion() . '</option>';
-                //     }
-
                     $combo .= '</select>';
                     echo $combo; ?>
 
@@ -70,7 +63,6 @@ if ($idRol != 1) {
                 $comboRol .= '</select>';
                 echo $comboRol; 
                 ?>
-                    <!-- <input class="easyui-checkbox" name="rol" value="rol" label="Rol:"> -->
                 </div>
                 <div style="margin-bottom:10px">
                     <input class="easyui-checkbox" name="medeshabilitado" value="medeshabilitado" label="Des-Habilitar:">
@@ -109,7 +101,6 @@ if ($idRol != 1) {
                 },
                 success: function(result) {
                     var result = eval('(' + result + ')');
-
                     alert("Volvio Serviodr");
                     if (!result.respuesta) {
                         $.messager.show({
@@ -117,7 +108,6 @@ if ($idRol != 1) {
                             msg: result.errorMsg
                         });
                     } else {
-
                         $('#dlg').dialog('close'); // close the dialog
                         $('#dg').datagrid('reload'); // reload 
                     }

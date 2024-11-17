@@ -5,13 +5,15 @@ $sesion = new session();
 $datos = data_submitted();
 $rolSesion = $sesion->getColeccionRol();
 $objUsuario = $sesion->getObjUsuario();
+$objRol=$sesion->getRolActivo();
+$idRol=$objRol->getIdRol();
 
 if (!$sesion->activa()) {
   header('Location: index.php');
 } else {
   include_once '../estructura/cabeceraSegura.php';
 }
-if ($tienePermiso == false) {
+if ($idRol !== 2) {
   echo "</br></br></br></br></br></br>";
   echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
 } else {

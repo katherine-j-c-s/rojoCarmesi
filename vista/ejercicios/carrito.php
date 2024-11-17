@@ -5,6 +5,8 @@
 include_once '../../configuracion.php';
 error_reporting(E_ERROR  | E_PARSE);
 $sesion = new session();
+$objRol=$sesion->getRolActivo();
+$idRol=$objRol->getIdRol();
 $datos = data_submitted();
 if (!$sesion->activa()) {
   header('Location: index.php');
@@ -14,7 +16,7 @@ if (!$sesion->activa()) {
 if (isset($_GET['Message'])) {
   print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
 }
-if ($tienePermiso == false) {
+if ($idRol == 1) {
   echo "</br></br></br></br></br></br>";
   echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
 } else {
