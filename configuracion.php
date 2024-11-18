@@ -6,6 +6,8 @@ header ("Cache-Control: no-cache, must-revalidate ");
 /////////////////////////////
 //PARA GABY 
 // $PROYECTO ='TPFINALPWD/rojoCarmesi/';
+//PARA KATHY
+// $PROYECTO =' rojoCarmesi/';
 $PROYECTO ='TPFINALPWD/rojoCarmesi/'; //variable que almacena el nombre del proyecto
 
 //variable que almacena el directorio del proyecto

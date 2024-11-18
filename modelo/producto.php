@@ -171,7 +171,6 @@ class producto{
         $sql = "DELETE  
                 FROM producto 
                 WHERE idProducto = '$idProducto'";
-          
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 return true;
@@ -189,3 +188,4 @@ class producto{
 }
 
 ?>
+

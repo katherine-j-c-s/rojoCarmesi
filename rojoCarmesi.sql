@@ -168,9 +168,9 @@ CREATE TABLE usuario (
 -- Volcado de datos para la tabla `usuario`
 --
 INSERT INTO `usuario` (`usNombre`, `usPass`, `usMail`, `usDesabilitado`) VALUES
-( 'admin', 'd396d55189db35d2cddc82ba7742b129', 'admin@cristalshop.com.ar', NULL),
+( 'admin', 'd396d55189db35d2cddc82ba7742b129', 'admin@rojoCarmesi.com.ar', NULL),
 ('Cliente', 'd396d55189db35d2cddc82ba7742b129', 'cliente@cliente.com.ar', NULL),
-( 'Deposito', 'd396d55189db35d2cddc82ba7742b129', 'desposito@clistalshop.com.ar', NULL),
+( 'Deposito', 'd396d55189db35d2cddc82ba7742b129', 'desposito@rojoCarmesi.com.ar', NULL),
 ;
 
 

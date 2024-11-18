@@ -20,68 +20,55 @@ if ($tienePermiso == false) {
 } else {
   $listaCarrito = $sesion->getCarrito();
   // print_r($listaCarrito);
+
+
+//
+
+
 ?>
-  <div class="container mt-5">
-    <h1 style='margin-top: 150px;'>Panel de administracion del Carrito</h1>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th scope="col" class="text-center">Id Producto</th>
-          <th scope="col" class="text-center">Nombre del Producto</th>
-          <th scope="col" class="text-center"> Descripcion</th>
-          <th scope="col" class="text-center">Precio</th>
-          <th scope="col" class="text-center">Cantidad a comprar</th>
-          <th scope="col" class="text-center">Borrar</th>
-        </tr>
-      </thead>
-      <?php
-      if ($listaCarrito == null) {
-        echo '<h3> No se encontraron registros </h3>';
-      } else {
-        $suma = 0;
-        foreach ($listaCarrito as $carrito) {
-          // print_r($carrito);
-          $suma += $carrito['cantidadCompra'] * $carrito['productoPrecio'];
-          echo '<tr><td class="text-center" style="width:200px;">' . $carrito['idProducto'] . '</td>';
-          echo '<td class="text-center" style="width:200px;">' . $carrito['productoNombre'] . '</td>';
-          echo '<td class="text-center" style="width:200px;">' . $carrito['productoDetalle'] . '</td>';
-          echo '<td class="text-center" style="width:200px;">' . $carrito['productoPrecio'] . '</td>';
-          echo '<td class="text-center" style="width:200px;">' . $carrito['cantidadCompra'] . '</td>';
-          '</tr>';
-
-          echo "<form action='../accion/accionBorrarProductoCarrito.php' method='post'>
-            <td class='text-center'>
-            <input name='idProducto' id='idProducto' type='hidden' value='{$carrito['idProducto']}'>
-            <button class=' btn btn-dark' type='submit'>
-            <i class='fas fa-trash-alt'></i></i></button></td></form></tr>";
-        }
-        echo"
-        <tr>
-          <th scope='col' class='text-center'></th>
-          <th scope='col' class='text-center'></th>
-          <th scope='col' class='text-center'></th>
-          <th scope='col' class='text-center'>Suma Total de su compra</th>
-          <th scope='col' class='text-center'></th>
-          <th scope='col' class='text-center'>Accion</th>";
-        echo "<br><tr>
-        <td class='text-center' style='width:200px;'></td>
-        <td  class='text-center' style='width:200px;'></td>
-        <td  class='text-center' style='width:200px;'></td>
-        <td  class='text-center' style='width:200px;'>$ {$suma}</td>
-        <td  class='text-center' style='width:200px;'></td>
-        <td class='text-center' ><form action='../accion/accionCrearCompra.php' method='post'>
-        <button class='btn btn-dark mx-auto' style='margin-left:50px' type='submit'  value='<?php $listaCarrito ?>'>Comprar</button></td>
-        </form>
-        </tr>";
-      } ?>
-    </table>
-    <div class="d-flex justify-items-right">
-
+<?php
+include_once "../../control/abmCarrito.php";
+$abmCarrito= new abmCarrito();
+$productos = $abmCarrito->obtenerProductos();
+?>
+<div class="container " style="margin-top: 90px;">
+  <div class="columns">
+    <div class="column">
+        <h2 class="is-size-2">Productos existentes</h2>
+        <a class="button is-success" href="crearProducto.php">Nuevo&nbsp;<i class="fa fa-plus"></i></a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($productos as $producto) { ?>
+                    <tr>
+                        <td><?php echo $producto->nombre ?></td>
+                        <td><?php echo $producto->descripcion ?></td>
+                        <td>$<?php echo number_format($producto->precio, 2) ?></td>
+                        <td>
+                            <form action="./eliminar_producto.php" method="post">
+                                <input type="hidden" name="id_producto" value="<?php echo $producto->id ?>">
+                                <button class="button is-danger">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </form>
+                        </td>
+                    <?php } ?>
+                    </tr>
+            </tbody>
+        </table>
     </div>
-  </div>
-
-
+</div>
+</div>
 <?php
 }
 include_once '../estructura/footer.php';
+
 ?>
+

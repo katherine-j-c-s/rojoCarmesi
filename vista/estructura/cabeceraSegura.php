@@ -1,6 +1,6 @@
 <?php
 
-$sesion = new session();
+// $sesion = new session();
 include_once '../../configuracion.php';
 error_reporting(0);
 //Verificacion si tiene la sesion activa en caso negativo reenviamos al loguin
@@ -36,6 +36,10 @@ if (!$sesion->activa()) {
         }
     }
 }
+//rol 
+// 1 = administrador
+// 2 = empleado
+// 3 = usuario
 
 ?>
 
@@ -72,72 +76,74 @@ if (!$sesion->activa()) {
             <span class="navbar-toggler-icon"></span>
         </button>
         <?php
-            $idRol = $rolActivo->getIdRol();
-            if ($idRol !== 3) {
+        // verificar si el rol es diferente de 3 es que es 
+        $idRol = $rolActivo->getIdRol();
+        if ($idRol !== 3) {
         ?>
-        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-            <ul class="navbar-nav  ms-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link text-black" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Navegacion
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="../home/index.php#page-top">Inicio Usuario</a>
-                        <li><a class="dropdown-item" href="../home/index.php#proximoseventos">Proximos Eventos</a></li>
-                        <li><a class="dropdown-item" href="../home/index.php#quienesSomos">¿Quienes Somos?</a></li>
-                        <li><a class="dropdown-item" href="../home/index.php#contact">Contacto</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-black" href="../ejercicios/crearProducto.php">Crear Producto</a>
-                </li>
-                <?php
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav  ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-black" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Navegacion
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" href="../home/index.php#page-top">Inicio Usuario</a>
+                            <li><a class="dropdown-item" href="../home/index.php#proximoseventos">Proximos Eventos</a></li>
+                            <li><a class="dropdown-item" href="../home/index.php#quienesSomos">¿Quienes Somos?</a></li>
+                            <li><a class="dropdown-item" href="../home/index.php#contact">Contacto</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="../ejercicios/crearProducto.php">Crear Producto</a>
+                    </li>
+                    <?php
                     if ($idRol == 1) {
-                ?>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Editar Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Agregar Permisos</a>
-                    </li>
-                <?php
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Editar Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="../ejercicios/editarMenu.php">Agregar Permisos</a>
+                        </li>
+                    <?php
                     }
-                ?>
-                <li class="nav-item dropdown">
+                    ?>
+                    <li class="nav-item dropdown">
                     <div class="btn-group" role="group" aria-label="Basic outlined example">
-                        <a href="../ejercicios/carrito.php" class="btn btn-outline-dark"><i class="fas fa-shopping-cart mr-3" style="color: black;"></i></a>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                            <div class="btn btn-outline-dark" id="cart-toggle">
+                                <i class="fas fa-shopping-cart mr-3" style="color: black;"></i>
+                            </div>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                                <?php
+                                if ($sesion->getCarrito() == null) {
+                                    echo "0";
+                                } else {
+                                    echo count($sesion->getCarrito());
+                                } ?>
+                            </span>
                             <?php
-                            if ($sesion->getCarrito() == null) {
-                                echo "0";
-                            } else {
-                                echo count($sesion->getCarrito());
-                            } ?>
-
-                        </span>
-                        <?php
                             if ($idRol == 1) {
-                        ?>
-                            <a class="nav-link text-black btn btn-outline-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                                <li class="dropdown-item">
-                                    Usurario:<?php echo $objUsuario->getUsNombre()?>
-                                </li>
-                                <li class="dropdown-item">
-                                    Rol:<?php echo $sesion->getRolActivo()->getRolDescripcion()?>
-                                </li>
-                                <li><a class="dropdown-item" href="../ejercicios/cambiarDatosUsuario.php#">Modificar Usuario</a></li>
-                            </ul>
-                        <?php
+                            ?>
+                                <a class="nav-link text-black btn btn-outline-dark" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                    <li class="dropdown-item">
+                                        Usurario:<?php echo $objUsuario->getUsNombre() ?>
+                                    </li>
+                                    <li class="dropdown-item">
+                                        Rol:<?php echo $sesion->getRolActivo()->getRolDescripcion() ?>
+                                    </li>
+                                    <li><a class="dropdown-item" href="../ejercicios/cambiarDatosUsuario.php#">Modificar Usuario</a></li>
+                                </ul>
+                            <?php
                             }
-                        ?>
-                        <a href="../accion/cerrarSesion.php" class="btn btn-outline-dark"> <i class="fas fa-sign-in-alt"></i>Log Out </a>
-                    </div>
-                </li>
-            </ul>
-        </div>
+                            ?>
+                            <a href="../accion/cerrarSesion.php" class="btn btn-outline-dark"> <i class="fas fa-sign-in-alt"></i>Log Out </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         <?php } else { ?>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
@@ -158,7 +164,7 @@ if (!$sesion->activa()) {
                     </li>
                     <li class="nav-item">
                         <div class="btn-group" role="group" aria-label="Basic outlined example">
-                            <a href="../ejercicios/carrito.php" class="btn btn-outline-dark"><i class="fas fa-shopping-cart mr-3" style="color: black;"></i></a>
+                            <div  id="cart-toggle" class="btn btn-outline-dark"><i class="fas fa-shopping-cart mr-3" style="color: black;"></i></div>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill">
                                 <?php
                                 if ($sesion->getCarrito() == null) {
@@ -173,7 +179,8 @@ if (!$sesion->activa()) {
                     </li>
                 </ul>
             </div>
-        <?php }?>
+        <?php } ?>
     </div>
 </nav>
+<script src="../js/carrito.js"></script>
 <body id="page-top">

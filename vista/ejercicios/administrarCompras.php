@@ -28,7 +28,7 @@ if ($tienePermiso == false) {
         $estadosDisponibles = $abmCompraEstadoTipo->buscar(null);
 
         foreach ($listaCompras as $objCompraEstado) {
-           echo '<form action="editarEstadoCompra.php" method="post">';
+          echo '<form action="editarEstadoCompra.php" method="post">';
           $span = '';
           //Datos de compra
           $objCompra = $objCompraEstado->getObjCompra();

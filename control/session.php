@@ -1,6 +1,7 @@
 <?php
-    error_reporting(0);
-class session{
+error_reporting(0);
+class session
+{
     private $objUsuario;
     private $coleccionRol;
     private $coleccionItems;
@@ -26,25 +27,28 @@ class session{
     /**
      * Devuelve el rol activo del usuario logueado como arreglo
      */
-    public function getRolActivo(){
+    public function getRolActivo()
+    {
         return $_SESSION['rolactivo'];
     }
 
-    public function buscarRolActivo(){
+    public function buscarRolActivo()
+    {
         // echo "entra a rol activo";
         $abmRol = new abmRol();
-        $idRol=$_SESSION['rolactivo']->getIdRol();
-     
+        $idRol = $_SESSION['rolactivo']->getIdRol();
+
         $rol = $abmRol->buscar(["idRol" => $idRol]);
         return $rol[0];
     }
 
-    public function setRolActivo($idrol){
-       
-       
-    $_SESSION['rolactivo'] = $idrol;
-            
-        
+    public function setRolActivo($idrol)
+    {
+
+
+        $_SESSION['rolactivo'] = $idrol;
+
+
         return $_SESSION['rolactivo'];
     }
 
@@ -65,10 +69,10 @@ class session{
                 $_SESSION['idUsuario'] = $listaUsuario[0]->getIdUsuario();
                 // $objRol= new abmRol;
                 // $listaRoles = $objRol->buscar("");
-                 $_SESSION['rolactivo'] = array();
+                $_SESSION['rolactivo'] = array();
                 // $_SESSION["rolactivo"] = $listaRoles[0]['idRol'];
                 $_SESSION['coleccionItems'] = array();
-                
+
                 $valido = true;
                 $exito = true;
                 //invocar funcion que calcule los atributos
@@ -78,8 +82,8 @@ class session{
                 // $this->setColeccionRol($coleccionRol);
             }
         }
-        
-        
+
+
         return $exito;
     }
 
@@ -94,59 +98,60 @@ class session{
         }
         return $activa;
     }
-    public function getCarrito(){
+    public function getCarrito()
+    {
         return $_SESSION['coleccionItems'];
     }
 
 
 
 
-    public function agregarColeccionItems($param){
+    public function agregarColeccionItems($param)
+    {
         $abmProducto = new abmProducto();
         $listaProductos = $abmProducto->buscar($param);
-        if(count($listaProductos) > 0){
+        if (count($listaProductos) > 0) {
             $objProducto = $listaProductos[0];
             //Si el carrito es nulo o no posee objetos le carga el primero 
-            if ($_SESSION['coleccionItems'] == null ) {
-                $datosCompra=[ 
-                    'idProducto' => $objProducto->getIdProducto(), 
-                    'productoNombre' => $objProducto->getProductoNombre(), 
-                    'productoDetalle' => $objProducto->getProductoDetalle(), 
-                    'productoPrecio' => $objProducto->getProductoPrecio(), 
-                    'cantidadCompra' => $param['compraItemCantidad'] 
-                ]; 
-                $_SESSION['coleccionItems'][] = $datosCompra; 
-                $this->setColeccionItems($_SESSION['coleccionItems']); 
-            }else{
+            if ($_SESSION['coleccionItems'] == null) {
+                $datosCompra = [
+                    'idProducto' => $objProducto->getIdProducto(),
+                    'productoNombre' => $objProducto->getProductoNombre(),
+                    'productoDetalle' => $objProducto->getProductoDetalle(),
+                    'productoPrecio' => $objProducto->getProductoPrecio(),
+                    'cantidadCompra' => $param['compraItemCantidad']
+                ];
+                $_SESSION['coleccionItems'][] = $datosCompra;
+                $this->setColeccionItems($_SESSION['coleccionItems']);
+            } else {
                 $carrito = $this->getCarrito();
                 array_values($carrito);
-                $bandera= false;
-                for ($i=0; $i < count($carrito); $i++) { 
+                $bandera = false;
+                for ($i = 0; $i < count($carrito); $i++) {
                     //Si el objeto que se quiere cargar en el carrito ya se encuentra
                     //solamente se le suma la nueva cantidad y se setea ese objeto en el carrito
-                    if ($carrito[$i]['idProducto'] == $param['idProducto'] ) {
+                    if ($carrito[$i]['idProducto'] == $param['idProducto']) {
                         $bandera = true;
                         $carrito[$i]['cantidadCompra'] = $carrito[$i]['cantidadCompra'] + $param['compraItemCantidad'];
                         $_SESSION['coleccionItems'][$i] = $carrito[$i];
-                        $this->setColeccionItems($_SESSION['coleccionItems']); 
+                        $this->setColeccionItems($_SESSION['coleccionItems']);
                     }
                 }
                 //si no se encuentra en la coleccion lo carga en la misma
-                if ($bandera == false){
-               
-                        $datosCompra=[ 
-                            'idProducto' => $objProducto->getIdProducto(), 
-                            'productoNombre' => $objProducto->getProductoNombre(), 
-                            'productoDetalle' => $objProducto->getProductoDetalle(), 
-                            'productoPrecio' => $objProducto->getProductoPrecio(), 
-                            'cantidadCompra' => $param['compraItemCantidad'] 
-                        ]; 
-                        $_SESSION['coleccionItems'][] = $datosCompra; 
-                        $this->setColeccionItems($_SESSION['coleccionItems']); 
-                    
+                if ($bandera == false) {
+
+                    $datosCompra = [
+                        'idProducto' => $objProducto->getIdProducto(),
+                        'productoNombre' => $objProducto->getProductoNombre(),
+                        'productoDetalle' => $objProducto->getProductoDetalle(),
+                        'productoPrecio' => $objProducto->getProductoPrecio(),
+                        'cantidadCompra' => $param['compraItemCantidad']
+                    ];
+                    $_SESSION['coleccionItems'][] = $datosCompra;
+                    $this->setColeccionItems($_SESSION['coleccionItems']);
                 }
             }
-        }else{
+        } else {
             echo 'No se ha encontrado el producto';
         }
     }
@@ -158,7 +163,8 @@ class session{
     /**
      * Devuelve el usuario logeado
      */
-    public function getObjUsuario(){
+    public function getObjUsuario()
+    {
 
         $usuario = null;
         $abmUs = new abmUsuario();
@@ -171,7 +177,8 @@ class session{
     /**
      * Devuelve el rol del usuario logeado ver cambiar el nombre y volver a probar
      */
-    public function getColeccionRol(){
+    public function getColeccionRol()
+    {
         $roles = array();
         $abmUR = new abmUsuarioRol();
         $abmR = new abmRol();
@@ -183,7 +190,7 @@ class session{
                 array_push($roles, $objRol[0]);
             }
         }
-    
+
         return $roles;
     }
 
@@ -203,54 +210,54 @@ class session{
     public function setColeccionRol($coleccionRol)
     {
         $this->coleccionRol = $coleccionRol;
-
     }
 
-    
+
     public function setObjUsuario($objUsuario)
     {
         $this->objUsuario = $objUsuario;
     }
 
-  
+
     /**
      * Set the value of coleccionItems
      *
      * @return  self
-     */ 
-    public function setColeccionItems($coleccionItems){
+     */
+    public function setColeccionItems($coleccionItems)
+    {
         $_SESSION['coleccionItems'] = $coleccionItems;
     }
 
 
-    public function accionBorrarProductoCarrito($datos){
+    public function accionBorrarProductoCarrito($datos)
+    {
         $arreglo = $this->getCarrito();
-        $arreglo = array_values($arreglo); 
-        for ($i=0; $i < count($arreglo); $i++) { 
-            if ($datos['idProducto'] == $arreglo[$i]['idProducto'] ) {
+        $arreglo = array_values($arreglo);
+        for ($i = 0; $i < count($arreglo); $i++) {
+            if ($datos['idProducto'] == $arreglo[$i]['idProducto']) {
                 unset($arreglo[$i]);
                 $this->setColeccionItems($arreglo);
             }
         }
         $arreglo = array_values($arreglo);
         $mensaje = "Producto borrado del carrito";
-        return $mensaje; 
-    }
-
-
-    public function accionCrearCompra($datos){
-        $objUsuario = $this->getObjUsuario();
-        $listaCarrito = $this->getCarrito();
-        $objabmCompraItem = new abmCompra();
-        $llenarCarrito = $objabmCompraItem->altaCompra($listaCarrito, $objUsuario);
-        if($llenarCarrito){
-            $this->setColeccionItems($coleccionItems = []);
-            $mensaje = "Su compra fue realizada con exito, muchas gracias!";
-        }else{
-            $mensaje = "Su compra no pudo ser realizada, disculpe las molestias";
-        }
         return $mensaje;
     }
 
 
+    public function accionCrearCompra($datos)
+    {
+        $objUsuario = $this->getObjUsuario();
+        $listaCarrito = $this->getCarrito();
+        $objabmCompraItem = new abmCompra();
+        $llenarCarrito = $objabmCompraItem->altaCompra($listaCarrito, $objUsuario);
+        if ($llenarCarrito) {
+            $this->setColeccionItems($coleccionItems = []);
+            $mensaje = "Su compra fue realizada con exito, muchas gracias!";
+        } else {
+            $mensaje = "Su compra no pudo ser realizada, disculpe las molestias";
+        }
+        return $mensaje;
+    }
 }
