@@ -152,63 +152,39 @@ if ($sesion->activa()) {
 </section>
 
 
-<!-- Contact-->
+<!-- Contacto  -->
 <section class="page-section" id="contact">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading text-uppercase">Contactenos</h2>
             <h3 class="section-subheading text-muted">Esperamos poder ayudarlos!</h3>
         </div>
-        <!-- * * * * * * * * * * * * * * *-->
-        <!-- * * SB Forms Contact Form * *-->
-        <!-- * * * * * * * * * * * * * * *-->
-        <!-- This form is pre-integrated with SB Forms.-->
-        <!-- To make this form functional, sign up at-->
-        <!-- https://startbootstrap.com/solution/contact-forms-->
-        <!-- to get an API token!-->
-        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+        <form id="contactForm" method="POST" action="../../utiles/PHPMailer/enviar_contacto.php">
             <div class="row align-items-stretch mb-5">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <!-- Name input-->
-                        <input class="form-control" id="name" type="text" placeholder="Su Nombre *" data-sb-validations="required" />
-                        <div class="invalid-feedback" data-sb-feedback="name:required">Su nombre es requerido.</div>
+                        <input class="form-control" name="name" id="name" type="text" placeholder="Su Nombre *" required />
+                        <div class="invalid-feedback">Su nombre es requerido.</div>
                     </div>
                     <div class="form-group">
-                        <!-- Email address input-->
-                        <input class="form-control" id="email" type="email" placeholder="Su email *" data-sb-validations="required,email" />
-                        <div class="invalid-feedback" data-sb-feedback="email:required">Su casilla de correo.</div>
-                        <div class="invalid-feedback" data-sb-feedback="email:email">El formato de su casilla no es valido.</div>
+                        <input class="form-control" name="email" id="email" type="email" placeholder="Su email *" required />
+                        <div class="invalid-feedback">Su casilla de correo es requerida.</div>
                     </div>
                     <div class="form-group mb-md-0">
-                        <!-- Phone number input-->
-                        <input class="form-control" id="phone" type="tel" placeholder="Su telefono celular *" data-sb-validations="required" />
-                        <div class="invalid-feedback" data-sb-feedback="phone:required">Su telefono de contacto.</div>
+                        <input class="form-control" name="phone" id="phone" type="tel" placeholder="Su telefono celular *" required />
+                        <div class="invalid-feedback">Su teléfono de contacto es requerido.</div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group form-group-textarea mb-md-0">
-                        <!-- Message input-->
-                        <textarea class="form-control" id="message" placeholder="El motivo de consulta *" data-sb-validations="required"></textarea>
-                        <div class="invalid-feedback" data-sb-feedback="message:required">El motivo de su consulta es requerido!.</div>
+                        <textarea class="form-control" name="message" id="message" placeholder="El motivo de consulta *" required></textarea>
+                        <div class="invalid-feedback">El motivo de su consulta es requerido!</div>
                     </div>
                 </div>
             </div>
-
-            <div class="d-none" id="submitSuccessMessage">
-                <div class="text-center text-white mb-3">
-                    <div class="fw-bolder">Tu mensaje ha sido enviado correctamente</div>
-                    Esto es solo a modo desmostrativo hasta que el sitio entre en produccion
-                    <br />
-                    <!--   <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>-->
-                </div>
+            <div class="text-center">
+                <button class="btn btn-primary btn-xl text-uppercase" id="submitButton" type="submit">Enviar Mensaje</button>
             </div>
-
-            <div class="d-none" id="submitErrorMessage">
-                <div class="text-center text-danger mb-3">Error sending message!</div>
-            </div>
-
-            <div class="text-center"><button class="btn btn-primary btn-xl text-uppercase disabled" id="submitButton" type="submit">Enviar Mensaje</button></div>
         </form>
     </div>
 </section>
