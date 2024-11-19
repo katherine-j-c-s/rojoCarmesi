@@ -5,6 +5,9 @@ $sesion = new session();
 $datos = data_submitted();
 $rolSesion = $sesion->getColeccionRol();
 $objUsuario = $sesion->getObjUsuario();
+$objRol=$sesion->getRolActivo();
+$idRol=$objRol->getIdRol();
+
 
 if (!$sesion->activa()) {
   header('Location: index.php');
@@ -18,7 +21,7 @@ echo "</br></br></br></br></br></br>";
 $abmUsuario = new abmUsuario();
 $abmRol = new abmUsuarioRol();
 $listaUsuario = $abmUsuario->buscar(null);
-if ($tienePermiso == false) {
+if ($idRol !== 1) {
   echo "</br></br></br></br></br></br>";
   echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
 } else {

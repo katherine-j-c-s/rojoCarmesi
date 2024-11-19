@@ -1,5 +1,6 @@
 <?php
 include_once '../../configuracion.php';
+
 $sesion = new session;
 $objUsuario = $sesion->getObjUsuario();
 if ($sesion->activa()) {

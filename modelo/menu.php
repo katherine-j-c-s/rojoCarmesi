@@ -1,6 +1,7 @@
 <?php
 class Menu {
     private $idmenu;
+    private $idPadre;
     private $menombre ;
     private $medescripcion;
     private $ObjMenu;
@@ -22,6 +23,22 @@ class Menu {
     public function setIdmenu($idmenu)
     {
         $this->idmenu = $idmenu;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdPadre()
+    {
+        return $this->idPadre;
+    }
+
+    /**
+     * @param mixed $idPadre
+     */
+    public function setIdPadre($idPadre)
+    {
+        $this->idPadre = $idPadre;
     }
 
     /**
@@ -114,8 +131,9 @@ class Menu {
         
      }
 
-     public function setear($idmenu, $menombre,$medescripcion,$ObjMenu,$medeshabilitado)    {
+     public function setear($idmenu, $idPadre, $menombre,$medescripcion,$ObjMenu,$medeshabilitado)    {
         $this->setIdmenu($idmenu);
+        $this->setIdPadre($idPadre);
         $this->setMenombre($menombre);
         $this->setMedescripcion($medescripcion);
         $this->setObjMenu($ObjMenu);
@@ -139,7 +157,7 @@ class Menu {
                         $objMenuPadre->setIdmenu($row['idpadre']);
                         $objMenuPadre->cargar();
                     }
-                    $this->setear($row['idmenu'], $row['menombre'],$row['medescripcion'],$objMenuPadre,$row['medeshabilitado']); 
+                    $this->setear($row['idmenu'], $row['idpadre'], $row['menombre'],$row['medescripcion'],$objMenuPadre,$row['medeshabilitado']); 
                     
                 }
             }
@@ -244,7 +262,7 @@ class Menu {
                         $objMenuPadre->setIdmenu($row['idpadre']);
                         $objMenuPadre->cargar();
                     }
-                    $obj->setear($row['idmenu'], $row['menombre'],$row['medescripcion'],$objMenuPadre,$row['medeshabilitado']); 
+                    $obj->setear($row['idmenu'],$row['idpadre'], $row['menombre'],$row['medescripcion'],$objMenuPadre,$row['medeshabilitado']); 
                     array_push($arreglo, $obj);
                 }
                 

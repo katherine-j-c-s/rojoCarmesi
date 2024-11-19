@@ -17,8 +17,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add to Cart Forms
     const forms = document.querySelectorAll('.add-to-cart-form');
+    console.log("forms: ", forms);
+    
     forms.forEach(form => {
         form.addEventListener('submit', function (e) {
+            console.log("entra al submit: ", e);
+            
             e.preventDefault();
 
             const formData = new FormData(this);

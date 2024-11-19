@@ -5,6 +5,8 @@ $sesion = new session();
 $datos = data_submitted();
 $rolSesion = $sesion->getColeccionRol();
 $objUsuario = $sesion->getObjUsuario();
+$objRol=$sesion->getRolActivo();
+$idRol=$objRol->getIdRol();
 
 if (!$sesion->activa()) {
   header('Location: index.php');
@@ -20,7 +22,7 @@ $listaMenu = $abmMenu->buscar(null);
 $abmMenuRol = new abmMenuRol;
 $listaMenuRol = $abmMenuRol->buscar(null);
 
-if ($tienePermiso == false) {
+if ($idRol != 1) {
   echo "</br></br></br></br></br></br>";
   echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
 } else {
@@ -28,6 +30,9 @@ if ($tienePermiso == false) {
 
   <div class="container mt-5">
     <h1>Panel de administracion de Menu</h1>
+    <a class=" btn btn-dark text-white" href="editarMenu.php" role="button">
+      Editar Menu
+    </a>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -79,7 +84,7 @@ if ($tienePermiso == false) {
           } else {
             echo "<td class='text-center'><i class='far fa-times-circle'></i></td>";
           }
-          echo "<form action='editarUsuarioSinJquery.php' method='post'>
+          echo "<form action='editarMenu.php' method='post'>
         <td class='text-center'>
         <input name='idmenu' id='idmenu' type='hidden' value='$idMenu'>
         <button class='btn btn-dark' type='submit'><i class='fas fa-edit'></i>

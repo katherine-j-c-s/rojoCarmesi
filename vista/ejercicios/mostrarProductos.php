@@ -26,7 +26,7 @@ if (session_status() == PHP_SESSION_NONE) {
     </button>
 
     <!-- Include Cart Sidebar -->
-    <?php include_once './asideCarrito.php'; ?>
+    <!-- <?php include_once './asideCarrito.php'; ?> -->
 
     <section class="py-2">
         <h4 class="mt-5" style='text-align: center'>Adquiri nuestros productos</h4>
@@ -71,8 +71,6 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
     </section>
 </div>
-
-<script src="../js/carrito.js"></script>
 
 <?php
 include_once '../estructura/footer.php';

@@ -1,6 +1,10 @@
 <?php
 include_once "../../configuracion.php";
 include_once "../estructura/cabeceraSegura.php";
+$sesion = new session();
+$objRol=$sesion->getRolActivo();
+$idRol=$objRol->getIdRol();
+
 $objControl = new AbmMenu();
 $List_Menu = $objControl->buscar(null);
 $combo = '<select class="easyui-combobox"  id="idpadre"  name="idpadre" label="Submenu de?:" labelPosition="top" style="width:90%;">
@@ -10,7 +14,7 @@ foreach ($List_Menu as $objMenu) {
 }
 
 
-if ($tienePermiso == false) {
+if ($idRol != 1) {
     echo "</br></br></br></br></br></br>";
     echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
 } else {
@@ -50,13 +54,6 @@ if ($tienePermiso == false) {
                 </div>
                 <div style="margin-bottom:10px">
                     <?php
-                //     $List_Menu = $objControl->buscar(null);
-                //     $combo = '<select class="easyui-combobox"  id="idpadre"  name="idpadre" label="Submenu de?:" labelPosition="top" style="width:90%;">
-                // <option></option>';
-                //     foreach ($List_Menu as $objMenu) {
-                //         $combo .= '<option value="' . $objMenu->getIdmenu() . '">' . $objMenu->getMenombre() . ':' . $objMenu->getMedescripcion() . '</option>';
-                //     }
-
                     $combo .= '</select>';
                     echo $combo; ?>
 
@@ -66,7 +63,6 @@ if ($tienePermiso == false) {
                 $comboRol .= '</select>';
                 echo $comboRol; 
                 ?>
-                    <!-- <input class="easyui-checkbox" name="rol" value="rol" label="Rol:"> -->
                 </div>
                 <div style="margin-bottom:10px">
                     <input class="easyui-checkbox" name="medeshabilitado" value="medeshabilitado" label="Des-Habilitar:">
@@ -105,7 +101,6 @@ if ($tienePermiso == false) {
                 },
                 success: function(result) {
                     var result = eval('(' + result + ')');
-
                     alert("Volvio Serviodr");
                     if (!result.respuesta) {
                         $.messager.show({
@@ -113,7 +108,6 @@ if ($tienePermiso == false) {
                             msg: result.errorMsg
                         });
                     } else {
-
                         $('#dlg').dialog('close'); // close the dialog
                         $('#dg').datagrid('reload'); // reload 
                     }

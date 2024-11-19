@@ -25,21 +25,21 @@ error_reporting(0);
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ms-auto">
-      <li class="nav-item">
-        <a class="nav-link text-black" href="../home/index.php#page-top">Inicio</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-black" href="../home/index.php#proximosEventos">Próximos Eventos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-black" href="../ejercicios/mostrarProductos.php">Productos</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-black" href="../home/index.php#quienesSomos">¿Quienes somos ?</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-black" href="../home/index.php#contact">Contacto</a>
-      </li>
+        <li class="nav-item">
+          <a class="nav-link text-black" href="../home/index.php#page-top">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-black" href="../home/index.php#proximosEventos">Próximos Eventos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-black" href="../ejercicios/mostrarProductos.php">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-black" href="../home/index.php#quienesSomos">¿Quienes somos ?</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-black" href="../home/index.php#contact">Contacto</a>
+        </li>
         <li class="nav-item">
           <div class="btn-group" role="group" aria-label="Basic outlined example">
             <a href="../ejercicios/crearUsuario.php" class="btn btn-outline-dark"><i class="fas fa-user-plus"></i> Crear Cuenta</a>

@@ -62,5 +62,3 @@ $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : [];
     ?>
 
 </aside>
-
-<script src="../js/carrito.js"></script>
