@@ -1,5 +1,5 @@
 <?php
-
+$sesion = new session();
 // $sesion = new session();
 include_once '../../configuracion.php';
 include_once './asideCarrito.php';
