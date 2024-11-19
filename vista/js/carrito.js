@@ -56,13 +56,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Update Cart Items Function
+    
     function updateCartItems(carrito) {
-        cartItems.innerHTML = ''; // Clear existing items
+        cartItems.innerHTML = '';
         let total = 0;
 
-        carrito.forEach((item, index) => {
-            // let cantidad = cantidad[index];
-            // const cantidad = item.cantidad;
+        carrito.forEach((item) => {
             const cartItemHTML = `
                 <div class="cart-item mb-3 border-bottom pb-2" data-id="${item.idProducto}">
                     <div class="d-flex align-items-center">
@@ -86,19 +85,17 @@ document.addEventListener('DOMContentLoaded', function () {
             total += item.precio * item.cantidad;
         });
 
-        // Update total
         const summaryHTML = `
             <div class="cart-summary mt-4">
                 <h4>Total: $ ${total.toFixed(2)}</h4>
-                <button class="btn btn-primary w-100 mt-3">Procesar Compra</button>
+                <button id="process-purchase" class="btn btn-primary w-100 mt-3">Procesar Compra</button>
             </div>
         `;
         cartItems.innerHTML += summaryHTML;
 
-        // Add event listeners to new buttons
         setupCartControls();
+        setupProcessPurchase();
     }
-
     // Setup Cart Controls (Decrease, Increase, Remove)
     function setupCartControls() {
         // Decrease Quantity
@@ -176,4 +173,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initial setup of cart controls
     setupCartControls();
+
+    function setupProcessPurchase() {
+        const processButton = document.getElementById('process-purchase');
+        if (processButton) {
+            processButton.addEventListener('click', function() {
+                if (confirm('¿Está seguro que desea finalizar la compra?')) {
+                    fetch('../accion/accionProcesarCompra.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Compra procesada exitosamente');
+                            cartSidebar.classList.remove('open');
+                            cartCount.textContent = '0';
+                            
+                            // Recargar la página para actualizar el stock mostrado
+                            window.location.reload();
+                        } else {
+                            alert(data.message || 'Error al procesar la compra');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error al procesar la compra');
+                    });
+                }
+            });
+        }
+    }
 });
