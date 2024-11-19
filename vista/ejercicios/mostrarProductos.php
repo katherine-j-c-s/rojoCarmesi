@@ -61,7 +61,7 @@ if (session_status() == PHP_SESSION_NONE) {
                                 <form class="add-to-cart-form" method="post">
                                     <input type="hidden" name="idProducto" value="<?= $producto->getIdProducto() ?>">
                                     <input type="number" name="compraItemCantidad" min="1" max="<?= $producto->getProductoStock() ?>" value="1">
-                                    <button type="submit" class="btn btn-warning mt-3">Añadir al carrito</button>
+                                    <button type="submit" class="btn btn-primary m-3">Añadir al carrito</button>
                                 </form>
                             <?php endif; ?>
                         </div>
