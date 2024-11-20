@@ -1,6 +1,7 @@
 <?php
 class abmCompraEstado
 {
+
     private function cargarObjeto($param)
     {
         $obj = null;
@@ -49,6 +50,7 @@ class abmCompraEstado
         return $resp;
     }
 
+    //hace el altase crea un objeto y se le setean los valores
     public function alta($param)
     {
         $resp = false;

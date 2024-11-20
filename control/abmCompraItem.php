@@ -4,8 +4,6 @@ class abmCompraItem
     private function cargarObjeto($param)
     {
         $obj = null;
-        // print_r($param);
-        // echo"cargarObjeto";
         if (array_key_exists('idCompraItem', $param) && array_key_exists('idProducto', $param) && array_key_exists('idCompra', $param) && array_key_exists('compraItemCantidad', $param)) {
             $objProducto = new producto();
             $objProducto->setIdProducto($param['idProducto']);
@@ -15,25 +13,24 @@ class abmCompraItem
             $objCompra->setIdCompra($param['idCompra']);
             $objCompra->cargar();
             $idCompra=$objCompra->getIdCompra();
-            // echo $idCompra;
             $obj = new compraItem();
-            //sacamos de setear 'idCompraItem'=>$param['idCompraItem'],
+            // sacamos de setear 'idCompraItem'=>$param['idCompraItem'],
             $obj->setear(['objProducto'=> $objProducto,'idCompra'=> $idCompra, 'compraItemCantidad'=>$param['compraItemCantidad']]);
         }
        
         return $obj;
     }
 
-    // private function cargarObjetoConClave($param)
-    // {
-    //     $obj = null;
-    //     if (isset($param['idCompraItem'])) {
-    //         $obj = new CompraItem();
-    //         $obj->setear($param['idCompraItem'], null, null, null);
-    //     }
+    private function cargarObjetoConClave($param)
+    {
+        $obj = null;
+        if (isset($param['idCompraItem'])) {
+            $obj = new CompraItem();
+            $obj->setear($param['idCompraItem'], null, null, null);
+        }
 
-    //     return $obj;
-    // }
+        return $obj;
+    }
 
     private function seteadosCamposClaves($param)
     {

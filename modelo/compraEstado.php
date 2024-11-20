@@ -11,7 +11,7 @@ class compraEstado{
 
     //Constructor
     public function __construct(){
-        $this->idCompraEstado = 0;
+        $this->idCompraEstado = '';
         $this->objCompra = '';
         $this->objCompraEstadoTipo = '';
         $this->compraEstadoFechaInicial = '';
@@ -147,6 +147,7 @@ class compraEstado{
     public function insertar(){
         $resp = false;
         $base = new BaseDatos();
+        // echo "\nasdasdasdasdasd" , json_encode($this->getObjCompra());
         // $idCompraEstado = $this->getIdCompraEstado();
         $objCompra = $this->getObjCompra()->getIdCompra();
         $objCompraEstadoTipo = $this->getObjCompraEstadoTipo()->getIdCompraEstadoTipo();

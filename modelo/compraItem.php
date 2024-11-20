@@ -19,7 +19,7 @@ class compraItem
     }
     public function setear($datos)
     {
-        $this->setIdCompraItem($datos['idCompraItem']);
+        // $this->setIdCompraItem($datos['idCompraItem']);
         $this->setObjProducto($datos['objProducto']);
         $this->setIdCompra($datos['idCompra']);
         $this->setCompraItemCantidad($datos['compraItemCantidad']);

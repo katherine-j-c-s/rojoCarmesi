@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeCart = document.getElementById('close-cart');
     const cartItems = document.getElementById('cart-items');
     const cartCount = document.getElementById('cart-count');
-    
+
     // Cart Sidebar Toggle
     cartToggle.addEventListener('click', () => {
         cartSidebar.classList.toggle('open');
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add to Cart Forms
     const forms = document.querySelectorAll('.add-to-cart-form');
-    
+
     forms.forEach(form => {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -116,7 +116,9 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: `idProducto=${productId}&cambio=${change}`
         })
-            .then(response => response.json())
+            .then(response => { 
+                console.log(response);
+                return response.json() })
             .then(data => {
                 if (data.success) {
                     updateCartItems(data.carrito);
@@ -157,39 +159,42 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupProcessPurchase() {
         const processButton = document.getElementById('process-purchase');
         if (processButton) {
-            processButton.addEventListener('click', function() {
+            processButton.addEventListener('click', function () {
                 if (confirm('¿Está seguro que desea finalizar la compra?')) {
                     const cartItemStock = document.querySelectorAll('.cart-stock');
                     const cartItemElements = document.querySelectorAll('.cart-item');
-                    const cartItems = Array.from(cartItemElements).map((item,index) => ({
+                    const cartItems = Array.from(cartItemElements).map((item, index) => ({
                         idProducto: item.dataset.id,
                         cantidad: cartItemStock[index].dataset.id
                     }));
-
+                    console.log(cartItems);
                     fetch('../accion/accionProcesarCompra.php', {
+
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
+
                         },
                         body: JSON.stringify({
                             items: cartItems
+
                         })
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Compra procesada exitosamente');
-                            cartSidebar.classList.remove('open');
-                            cartCount.textContent = '0';
-                            window.location.reload();
-                        } else {
-                            alert(data.message || 'Error al procesar la compra');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Ocurrió un error al procesar la compra');
-                    });
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Compra procesada exitosamente');
+                                cartSidebar.classList.remove('open');
+                                cartCount.textContent = '0';
+                                window.location.reload();
+                            } else {
+                                alert(data.message || 'Error al procesar la compra');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Ocurrió un error al procesar la compra');
+                        });
                 }
             });
         }

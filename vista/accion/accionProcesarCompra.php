@@ -1,13 +1,11 @@
 <?php
-// accionProcesarCompra.php
-
 include_once '../../configuracion.php';
-
 if (!isset($_SESSION)) {
     session_start();
 }
 
-// Verificar si hay productos en el carrito
+header('Content-Type: application/json');
+
 if (!isset($_SESSION['carrito']) || empty($_SESSION['carrito'])) {
     echo json_encode([
         'success' => false,
@@ -15,6 +13,7 @@ if (!isset($_SESSION['carrito']) || empty($_SESSION['carrito'])) {
     ]);
     exit;
 }
+
 
 // // Obtener el usuario actual de la sesión
 // if (!isset($_SESSION['idusuario'])) {
@@ -69,7 +68,7 @@ foreach ($_SESSION['carrito'] as $item) {
 
 // Obtener objeto usuario
 $abmUsuario = new abmUsuario();
-$paramUsuario = ['idusuario' => $_SESSION['idusuario']];
+$paramUsuario = ['idUsuario' => $_SESSION['idUsuario']];
 $listaUsuarios = $abmUsuario->buscar($paramUsuario);
 if (empty($listaUsuarios)) {
     echo json_encode([
@@ -103,11 +102,11 @@ try {
             'message' => 'Error al procesar la compra'
         ]);
     }
-} catch (Exception $e) {
-    $db->Rollback();
+}catch (Exception $e) {
     echo json_encode([
         'success' => false,
         'message' => 'Error en la transacción: ' . $e->getMessage()
     ]);
+    exit;
 }
 ?>

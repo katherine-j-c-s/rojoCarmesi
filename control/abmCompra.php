@@ -23,43 +23,50 @@ class abmCompra
         $objCompra->setear($datosCompra);
         $objCompra->insertar();
         $idCompra = $objCompra->getIdCompra();
+        // echo idcompra
 
-        $abmCompraEstadoTipo=new abmCompraEstadoTipo();
-        $datos['idCompraEstadoTipo']=1;
-        $listaCompraEstadoTipo=$abmCompraEstadoTipo->buscar($datos);
-        $objCompraEstadoTipo=$listaCompraEstadoTipo[0];
-        $idCompraEstadoTipo=$objCompraEstadoTipo->getIdCompraEstadoTipo();
-        $abmCompraEstado=new abmCompraEstado();
+        $abmCompraEstadoTipo = new abmCompraEstadoTipo();
+        $datos['idCompraEstadoTipo'] = 1;
+        $listaCompraEstadoTipo = $abmCompraEstadoTipo->buscar($datos);
+        $objCompraEstadoTipo = $listaCompraEstadoTipo[0];
+        $idCompraEstadoTipo = $objCompraEstadoTipo->getIdCompraEstadoTipo();
+        $abmCompraEstado = new abmCompraEstado();
         // echo "DATOS COMPRA ITEM";
-        $datosCompraEstado=['idCompraEstado'=>'',
-        'idCompra'=>$idCompra,
-        'idCompraEstadoTipo'=>$idCompraEstadoTipo,
-        'compraEstadoFechaInicial'=>date("Y-m-d H:i:s"),
-        'compraEstadoFechaFinal'=>'0000-00-00 00:00:00'];
+        $datosCompraEstado = [
+            'idCompraEstado' => '',
+            'idCompra' => $idCompra,
+            'idCompraEstadoTipo' => $idCompraEstadoTipo,
+            'compraEstadoFechaInicial' => date("Y-m-d H:i:s"),
+            'compraEstadoFechaFinal' => '0000-00-00 00:00:00'
+        ];
+
         // print_r($datosCompraEstado);
         $abmCompraEstado->alta($datosCompraEstado);
-        
-        
+
+
         foreach ($arregloProductos as $producto) {
             $nuevoStock['productoStock'] = 0;
             $cantidadAdescontar = 0;
             $cantidadActual = 0;
             $abmCompraItem = new abmCompraItem();
-         
+
             $datosCompraItem = [
                 'idCompraItem' => '',
                 'idProducto' => $producto['idProducto'],
                 'idCompra' => $idCompra,
                 'compraItemCantidad' => $producto['cantidadCompra']
+
             ];
+
+
 
             if ($abmCompraItem->alta($datosCompraItem)) {
 
                 $objabmProducto = new abmProducto();
-            
+
                 $listaProductos = $objabmProducto->buscar($datosCompraItem);
                 $objProducto = $listaProductos[0];
-                
+
                 // echo 'ABM COMPRA OBJ PRODUCTO  ';
                 // print_r($objProducto);
 
@@ -67,9 +74,9 @@ class abmCompra
                 $productoDetalle = $objProducto->getProductoDetalle();
                 $productoPrecio = $objProducto->getProductoPrecio();
                 $cantidadActual = $objProducto->getProductoStock();
-               
+
                 $cantidadAdescontar = $datosCompraItem['compraItemCantidad'];
-              
+
                 $nuevoStock['productoStock'] = $cantidadActual - $cantidadAdescontar;
                 $datosProducto = [
                     'idProducto' => $producto['idProducto'],
@@ -80,7 +87,7 @@ class abmCompra
                 ];
 
                 $objabmProducto->modificacion($datosProducto);
-                
+
                 $datosNuevaCompraItem = [
                     'idProducto' => $producto['idProducto'],
                     'idCompra' => $idCompra,
@@ -102,7 +109,7 @@ class abmCompra
     public function cargarObjeto($param)
     {
         $obj = null;
-       
+
         if (
             array_key_exists('idCompra', $param) and
             array_key_exists('compraFecha', $param) and
@@ -195,7 +202,7 @@ class abmCompra
             if (isset($param['compraFecha']))
                 $where .= ' and compraFecha =' . $param['compraFecha'] . "'";
             if (isset($param['idUsuario']))
-                $where .= ' and idUsuario =' ."'". $param['idUsuario'] . "'";
+                $where .= ' and idUsuario =' . "'" . $param['idUsuario'] . "'";
         }
         $arreglo = compra::listar($where);
         return $arreglo;
