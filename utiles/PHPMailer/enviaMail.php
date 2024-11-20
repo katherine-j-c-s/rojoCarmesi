@@ -24,7 +24,7 @@ class enviarMail {
         $this->SMTPAuth = true;
         $this->Username = "gabriela.contreras@est.fi.uncoma.edu.ar";
         // IMPORTANTE: Genera una contraseña de aplicación en Gmail
-        $this->Password = "jrxy shrm lbqr icpm"; // Reemplazar con la contraseña de aplicación de Gmail
+        $this->Password = "jrxy shrm lbqr icpm"; 
         $this->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $this->Port = 587;
         

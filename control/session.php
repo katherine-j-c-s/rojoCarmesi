@@ -246,12 +246,12 @@ class session
     }
 
 
-    public function accionCrearCompra($datos)
+    public function accionCrearCompra($listaProductos)
     {
         $objUsuario = $this->getObjUsuario();
         $listaCarrito = $this->getCarrito();
         $objabmCompraItem = new abmCompra();
-        $llenarCarrito = $objabmCompraItem->altaCompra($listaCarrito, $objUsuario);
+        $llenarCarrito = $objabmCompraItem->altaCompra($listaProductos, $objUsuario);
         if ($llenarCarrito) {
             $this->setColeccionItems($coleccionItems = []);
             $mensaje = "Su compra fue realizada con exito, muchas gracias!";

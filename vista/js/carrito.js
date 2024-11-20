@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeCart = document.getElementById('close-cart');
     const cartItems = document.getElementById('cart-items');
     const cartCount = document.getElementById('cart-count');
-    // const cantidad = document.getElementsByClassName('compraItemCantidad').value;
     
     // Cart Sidebar Toggle
     cartToggle.addEventListener('click', () => {
@@ -17,14 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Add to Cart Forms
     const forms = document.querySelectorAll('.add-to-cart-form');
-    console.log("forms: ", forms);
     
     forms.forEach(form => {
         form.addEventListener('submit', function (e) {
-            console.log("entra al submit: ", e);
-            
             e.preventDefault();
-
             const formData = new FormData(this);
 
             fetch('../accion/accionAgregarCarrito.php', {
@@ -34,14 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Update cart items
                         updateCartItems(data.carrito);
-
-                        // Update cart count
-
                         cartCount.textContent = data.cantidad;
-
-                        // Open sidebar
                         cartSidebar.classList.add('open');
                     } else {
                         alert(data.message || 'Error al agregar al carrito');
@@ -54,9 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-
     // Update Cart Items Function
-    
     function updateCartItems(carrito) {
         cartItems.innerHTML = '';
         let total = 0;
@@ -74,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="d-flex align-items-center justify-content-between mt-2">
                         <div class="btn-group" role="group">
                             <button class="btn btn-sm btn-outline-secondary decrease-quantity" data-id="${item.idProducto}">-</button>
-                            <span class="btn btn-sm btn-outline-secondary quantity">${item.cantidad}</span>
+                            <span class="btn cart-stock btn-sm btn-outline-secondary quantity" data-id="${item.cantidad}">${item.cantidad}</span>
                             <button class="btn btn-sm btn-outline-secondary increase-quantity" data-id="${item.idProducto}">+</button>
                         </div>
                         <button class="btn btn-sm btn-danger remove-item" data-id="${item.idProducto}">Eliminar</button>
@@ -85,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
             total += item.precio * item.cantidad;
         });
 
+        // Modificado para incluir los items en el formulario
         const summaryHTML = `
             <div class="cart-summary mt-4">
                 <h4>Total: $ ${total.toFixed(2)}</h4>
@@ -96,9 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setupCartControls();
         setupProcessPurchase();
     }
-    // Setup Cart Controls (Decrease, Increase, Remove)
+
     function setupCartControls() {
-        // Decrease Quantity
         document.querySelectorAll('.decrease-quantity').forEach(button => {
             button.addEventListener('click', function () {
                 const productId = this.dataset.id;
@@ -106,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Increase Quantity
         document.querySelectorAll('.increase-quantity').forEach(button => {
             button.addEventListener('click', function () {
                 const productId = this.dataset.id;
@@ -114,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // Remove Item
         document.querySelectorAll('.remove-item').forEach(button => {
             button.addEventListener('click', function () {
                 const productId = this.dataset.id;
@@ -123,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Update Quantity
     function updateQuantity(productId, change) {
         fetch('../accion/actualizarCarrito.php', {
             method: 'POST',
@@ -147,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Remove Item from Cart
     function removeFromCart(productId) {
         fetch('../accion/eliminarCarrito.php', {
             method: 'POST',
@@ -171,19 +154,26 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Initial setup of cart controls
-    setupCartControls();
-
     function setupProcessPurchase() {
         const processButton = document.getElementById('process-purchase');
         if (processButton) {
             processButton.addEventListener('click', function() {
                 if (confirm('¿Está seguro que desea finalizar la compra?')) {
+                    const cartItemStock = document.querySelectorAll('.cart-stock');
+                    const cartItemElements = document.querySelectorAll('.cart-item');
+                    const cartItems = Array.from(cartItemElements).map((item,index) => ({
+                        idProducto: item.dataset.id,
+                        cantidad: cartItemStock[index].dataset.id
+                    }));
+
                     fetch('../accion/accionProcesarCompra.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
-                        }
+                        },
+                        body: JSON.stringify({
+                            items: cartItems
+                        })
                     })
                     .then(response => response.json())
                     .then(data => {
@@ -191,8 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             alert('Compra procesada exitosamente');
                             cartSidebar.classList.remove('open');
                             cartCount.textContent = '0';
-                            
-                            // Recargar la página para actualizar el stock mostrado
                             window.location.reload();
                         } else {
                             alert(data.message || 'Error al procesar la compra');
@@ -206,4 +194,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+
+    setupCartControls();
 });

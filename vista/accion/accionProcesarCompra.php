@@ -16,13 +16,22 @@ if (!isset($_SESSION['carrito']) || empty($_SESSION['carrito'])) {
     exit;
 }
 
+// // Obtener el usuario actual de la sesión
+// if (!isset($_SESSION['idusuario'])) {
+//     echo json_encode([
+//         'success' => false,
+//         'message' => 'Usuario no autenticado'
+//     ]);
+//     exit;
+// }
+
+$abmCompra = new abmCompra();
 $abmProducto = new abmProducto();
 $actualizacionesExitosas = true;
 $errores = [];
 
-// Procesar cada producto en el carrito
+// Verificar stock disponible antes de procesar
 foreach ($_SESSION['carrito'] as $item) {
-    // Buscar el producto en la base de datos
     $paramBusqueda = ['idProducto' => $item['idProducto']];
     $productos = $abmProducto->buscar($paramBusqueda);
     
@@ -30,25 +39,8 @@ foreach ($_SESSION['carrito'] as $item) {
         $producto = $productos[0];
         $stockActual = $producto->getProductoStock();
         $cantidadComprada = $item['cantidad'];
-        $nuevoStock = $stockActual - $cantidadComprada;
         
-        // Verificar que haya suficiente stock
-        if ($nuevoStock >= 0) {
-            // Preparar datos para la actualización
-            $datosActualizacion = [
-                'idProducto' => $item['idProducto'],
-                'productoNombre' => $producto->getProductoNombre(),
-                'productoDetalle' => $producto->getProductoDetalle(),
-                'productoStock' => $nuevoStock,
-                'productoPrecio' => $producto->getProductoPrecio()
-            ];
-            
-            // Actualizar el stock en la base de datos
-            if (!$abmProducto->modificacion($datosActualizacion)) {
-                $actualizacionesExitosas = false;
-                $errores[] = "Error al actualizar el stock del producto: " . $producto->getProductoNombre();
-            }
-        } else {
+        if ($stockActual < $cantidadComprada) {
             $actualizacionesExitosas = false;
             $errores[] = "Stock insuficiente para el producto: " . $producto->getProductoNombre();
         }
@@ -58,17 +50,64 @@ foreach ($_SESSION['carrito'] as $item) {
     }
 }
 
-// Si todas las actualizaciones fueron exitosas, limpiar el carrito
-if ($actualizacionesExitosas) {
-    $_SESSION['carrito'] = [];
-    echo json_encode([
-        'success' => true,
-        'message' => 'Compra procesada exitosamente'
-    ]);
-} else {
+if (!$actualizacionesExitosas) {
     echo json_encode([
         'success' => false,
-        'message' => 'Error al procesar la compra: ' . implode(', ', $errores)
+        'message' => 'Error al verificar stock: ' . implode(', ', $errores)
+    ]);
+    exit;
+}
+
+// Preparar datos para la compra
+$datosCompra = [];
+foreach ($_SESSION['carrito'] as $item) {
+    $datosCompra[] = [
+        'idProducto' => $item['idProducto'],
+        'cantidadCompra' => $item['cantidad']
+    ];
+}
+
+// Obtener objeto usuario
+$abmUsuario = new abmUsuario();
+$paramUsuario = ['idusuario' => $_SESSION['idusuario']];
+$listaUsuarios = $abmUsuario->buscar($paramUsuario);
+if (empty($listaUsuarios)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error al obtener datos del usuario'
+    ]);
+    exit;
+}
+$objUsuario = $listaUsuarios[0];
+
+// Crear la compra y sus estados
+try {
+    // Iniciar transacción
+    $db = new BaseDatos();
+    $db->Iniciar();
+    
+    // Alta de la compra
+    if ($abmCompra->altaCompra($datosCompra, $objUsuario)) {
+        // La función altaCompra ya maneja la actualización del stock y la creación del estado inicial
+        $_SESSION['carrito'] = [];
+        $db->Commit();
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'Compra procesada exitosamente'
+        ]);
+    } else {
+        $db->Rollback();
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error al procesar la compra'
+        ]);
+    }
+} catch (Exception $e) {
+    $db->Rollback();
+    echo json_encode([
+        'success' => false,
+        'message' => 'Error en la transacción: ' . $e->getMessage()
     ]);
 }
 ?>

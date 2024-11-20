@@ -17,10 +17,10 @@ $listaCompras = $abmCompra->buscar($datos);
 if (isset($_GET['Message'])) {
   print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
 }
-if ($tienePermiso == false) {
-  echo "</br></br></br></br></br></br>";
-  echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
-} else {
+// if ($tienePermiso == false) {
+//   echo "</br></br></br></br></br></br>";
+//   echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
+// } else {
 ?>
   <div class="container" style="margin-top: 100px;">
     <h1>El historial de compras en nuestra tienda!</h1>
@@ -71,6 +71,6 @@ if ($tienePermiso == false) {
   </table>
 
 <?php
-}
+// }
 include_once '../estructura/footer.php';
 ?>
