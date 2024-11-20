@@ -14,16 +14,6 @@ if (!isset($_SESSION['carrito']) || empty($_SESSION['carrito'])) {
     exit;
 }
 
-
-// // Obtener el usuario actual de la sesión
-// if (!isset($_SESSION['idusuario'])) {
-//     echo json_encode([
-//         'success' => false,
-//         'message' => 'Usuario no autenticado'
-//     ]);
-//     exit;
-// }
-
 $abmCompra = new abmCompra();
 $abmProducto = new abmProducto();
 $actualizacionesExitosas = true;
@@ -33,12 +23,12 @@ $errores = [];
 foreach ($_SESSION['carrito'] as $item) {
     $paramBusqueda = ['idProducto' => $item['idProducto']];
     $productos = $abmProducto->buscar($paramBusqueda);
-    
+
     if (!empty($productos)) {
         $producto = $productos[0];
         $stockActual = $producto->getProductoStock();
         $cantidadComprada = $item['cantidad'];
-        
+
         if ($stockActual < $cantidadComprada) {
             $actualizacionesExitosas = false;
             $errores[] = "Stock insuficiente para el producto: " . $producto->getProductoNombre();
@@ -77,36 +67,49 @@ if (empty($listaUsuarios)) {
     ]);
     exit;
 }
-$objUsuario = $listaUsuarios[0];
 
-// Crear la compra y sus estados
+$objUsuario = $listaUsuarios[0];
 try {
     // Iniciar transacción
     $db = new BaseDatos();
-    $db->Iniciar();
+    
+    // Verificar la conexión
+    if (!$db->Iniciar()) {
+        throw new Exception("No se pudo iniciar la conexión con la base de datos");
+    }
+    
+    // Iniciar transacción usando PDO
+    $db->beginTransaction();
     
     // Alta de la compra
     if ($abmCompra->altaCompra($datosCompra, $objUsuario)) {
-        // La función altaCompra ya maneja la actualización del stock y la creación del estado inicial
+        // Limpiar carrito
         $_SESSION['carrito'] = [];
-        $db->Commit();
+        
+        // Commit transaction
+        $db->commit();
         
         echo json_encode([
             'success' => true,
             'message' => 'Compra procesada exitosamente'
         ]);
     } else {
-        $db->Rollback();
+        // Rollback transaction
+        $db->rollBack();
         echo json_encode([
             'success' => false,
             'message' => 'Error al procesar la compra'
         ]);
     }
-}catch (Exception $e) {
+} catch (Exception $e) {
+    // Ensure rollback in case of any exception
+    if ($db->inTransaction()) {
+        $db->rollBack();
+    }
+    
     echo json_encode([
         'success' => false,
         'message' => 'Error en la transacción: ' . $e->getMessage()
     ]);
-    exit;
 }
 ?>

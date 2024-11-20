@@ -47,9 +47,6 @@ class BaseDatos extends PDO
 
 
 
-
-
-
     public function getConec()
     {
         return $this->conec;
