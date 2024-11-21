@@ -124,7 +124,7 @@ if (!$sesion->activa()) {
                     // Mostrar items individuales para cliente
                     foreach ($menuItems as $item) {
                         // Excluir items del menú Usuario ya que se manejan por separado
-                        if ($item->getIdMenu() !== 4 && $item->getIdMenu() !== 2 && $item->getIdMenu() !== 14 && $item->getIdMenu() !== 16) {
+                        if ($item->getIdMenu() !== 4 && $item->getIdMenu() !== 2 && $item->getIdMenu() !== 9 && $item->getIdMenu() !== 24 && $item->getIdMenu() !== 14 && $item->getIdMenu() !== 16) {
                 ?>
                             <li class="nav-item">
                                 <a class="nav-link text-black" href="<?php echo $item->getMeDescripcion(); ?>">
@@ -134,40 +134,39 @@ if (!$sesion->activa()) {
                         <?php
                         }
                     }
-                } else {
+                } 
                     // Mantener la estructura original para otros roles
-                    foreach ($menuHierarchy as $parentId => $menuData) {
-                        $parentMenu = $menuData['item'];
-                        $children = $menuData['children'];
+                foreach ($menuHierarchy as $parentId => $menuData) {
+                    $parentMenu = $menuData['item'];
+                    $children = $menuData['children'];
 
-                        // Skip the Usuario menu as it will be handled separately
-                        if ($parentMenu->getMeNombre() === 'Usuario') {
-                            continue;
-                        }
+                    // Skip the Usuario menu as it will be handled separately
+                    if ($parentMenu->getMeNombre() === 'Usuario') {
+                        continue;
+                    }
 
-                        // Only show menu items if there are children
-                        if (!empty($children)) {
-                        ?>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link text-black" href="#" id="navbarDrop<?php echo $parentId; ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <?php echo $parentMenu->getMeNombre(); ?>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDrop<?php echo $parentId; ?>">
-                                    <?php
-                                    foreach ($children as $child) {
-                                    ?>
-                                        <li>
-                                            <a class="dropdown-item" href="<?php echo $child->getMeDescripcion(); ?>">
-                                                <?php echo $child->getMeNombre(); ?>
-                                            </a>
-                                        </li>
-                                    <?php
-                                    }
-                                    ?>
-                                </ul>
-                            </li>
-                    <?php
-                        }
+                    // Only show menu items if there are children
+                    if (!empty($children)) {
+                    ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-black" href="#" id="navbarDrop<?php echo $parentId; ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <?php echo $parentMenu->getMeNombre(); ?>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDrop<?php echo $parentId; ?>">
+                                <?php
+                                foreach ($children as $child) {
+                                ?>
+                                <li>
+                                    <a class="dropdown-item" href="<?php echo $child->getMeDescripcion(); ?>">
+                                            <?php echo $child->getMeNombre(); ?>
+                                        </a>
+                                    </li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
+                        </li>
+                <?php
                     }
                 }
 
