@@ -104,12 +104,13 @@ INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado) VALUES
 ('Cerrar Sesion', '../accion/cerrarSesion.php', 4, NULL),
 --nuevo----------------------------------- todo lo de abajo
 ('Compra','padre',NULL,NULL),
-('Vista Compras', '../ejercicios/administrarCompras.php', 17, NULL);
+('Vista Compras', '../ejercicios/administrarCompras.php', 17, NULL),
 ('Permisos', 'padre', NULL, NULL),
 ('Editar Compra', '../ejercicios/editarEstadoCompra.php', 19, NULL),
 ('Editar Producto', '../ejercicios/editarProducto.php', 19, NULL),
 ('Editar Menu', '../ejercicios/editarMenu.php', 19, NULL),
-('Editar Usuario', '../ejercicios/editarUsuario.php', 19, NULL);
+('Editar Usuario', '../ejercicios/editarUsuario.php', 19, NULL),
+('Mis Compras', '../ejercicios/comprasUsuario', 2, NULL);
 
 
 
@@ -126,7 +127,7 @@ CREATE TABLE menurol (
 --
 -- Volcado de datos para la tabla `menurol`
 --
-INSERT INTO menu_roles (idmenu, idRol) VALUES
+INSERT INTO menu_rol (idmenu, idRol) VALUES
 (1, 1),
 (1, 2),
 (2, 1),
@@ -162,13 +163,14 @@ INSERT INTO menu_roles (idmenu, idRol) VALUES
 (16, 1),
 (16, 2),
 (16, 3),
-(17, 2),--nuevo
-(18, 2),--nuevo
-(19, 1),--nuevo
-(20, 2),--nuevo
-(21, 2),--nuevo
-(22, 1),--nuevo
-(23, 1);--nuevo
+(17, 2),
+(18, 2),
+(19, 1),
+(20, 2),
+(21, 2),
+(22, 1),
+(23, 1),
+(24, 3);
 
 
 -- Tabla producto
@@ -208,8 +210,8 @@ CREATE TABLE usuario (
 --
 INSERT INTO `usuario` (`usNombre`, `usPass`, `usMail`, `usDesabilitado`) VALUES
 ( 'admin', 'd396d55189db35d2cddc82ba7742b129', 'admin@rojoCarmesi.com.ar', NULL),
-('Cliente', 'd396d55189db35d2cddc82ba7742b129', 'cliente@cliente.com.ar', NULL),
-( 'Deposito', 'd396d55189db35d2cddc82ba7742b129', 'desposito@rojoCarmesi.com.ar', NULL),
+('Cliente', 'd396d55189db35d2cddc82ba7742b129', 'katherine.contreras@est.fi.uncoma.edu.ar', NULL),
+( 'Deposito', 'd396d55189db35d2cddc82ba7742b129', 'gcontreras8522@gmail.com', NULL),
 ;
 
 
