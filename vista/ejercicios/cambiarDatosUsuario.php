@@ -1,10 +1,23 @@
 <?php
 include_once '../../configuracion.php';
 include_once '../estructura/cabeceraSegura.php';
+include_once '../../utiles/verificador.php';
+
+$sesion = new session();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
+
 
 if (isset($_GET['Message'])) {
     print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
 }
+if (!$resultado['permiso']) {
+    $mensaje = $resultado['mensaje'];
+    echo "</br></br></br></br></br></br>";
+    echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+}else{
 ?>
 
 <div class="container p-5 mt-5">
@@ -71,5 +84,6 @@ if (isset($_GET['Message'])) {
 <script src="../js/validacionCambiarUsuario.js" ></script>
 
 <?php
+}
     include_once '../estructura/footer.php';
 ?>

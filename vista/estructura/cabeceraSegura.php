@@ -39,7 +39,9 @@ if (!$sesion->activa()) {
         foreach ($menuRoles as $menuRole) {
             $menuItem = $menu->buscar(['idmenu' => $menuRole->getObjMenu()->getIdMenu()]);
             if (!empty($menuItem)) {
-                $menuItems[] = $menuItem[0];
+                if ($menuItem[0]->getMeNombre() !== 'Permisos') {
+                    $menuItems[] = $menuItem[0];
+                }
             }
         }
         return $menuItems;

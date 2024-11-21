@@ -101,7 +101,14 @@ INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado) VALUES
 ('Agregar Permisos', '../ejercicios/listarUsuarios.php', 3, NULL),
 ('Carrito', '../ejercicios/carrito.php', 4, NULL),
 ('Modificar Usuario', '../ejercicios/cambiarDatosUsuario.php', 4, NULL),
-('Cerrar Sesion', '../accion/cerrarSesion.php', 4, NULL);
+('Cerrar Sesion', '../accion/cerrarSesion.php', 4, NULL),
+('Compra','padre',NULL,NULL),
+('Vista Compras', '../ejercicios/administrarCompras.php', 17, NULL);
+('Permisos', 'padre', NULL, NULL),
+('Editar Compra', '../ejercicios/editarEstadoCompra.php', 19, NULL),
+('Editar Producto', '../ejercicios/editarProducto.php', 19, NULL),
+('Editar Menu', '../ejercicios/editarMenu.php', 19, NULL),
+('Editar Usuario', '../ejercicios/editarUsuario.php', 19, NULL);
 
 
 
@@ -153,7 +160,14 @@ INSERT INTO menu_roles (idmenu, idRol) VALUES
 (15, 1),
 (16, 1),
 (16, 2),
-(16, 3);
+(16, 3),
+(17, 2),
+(18, 2),
+(19, 1),
+(20, 2),
+(21, 2),
+(22, 1),
+(23, 1);
 
 
 -- Tabla producto

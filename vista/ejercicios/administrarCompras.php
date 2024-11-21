@@ -1,13 +1,22 @@
 <?php
 include_once '../../configuracion.php';
 include_once '../estructura/cabeceraSegura.php';
+include_once '../../utiles/verificador.php';
+
+$sesion = new session();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
+
 $abmCompraEstado = new abmCompraEstado();
 $listaCompras = $abmCompraEstado->buscar(null);
 $abmCompraEstadoTipo = new abmCompraEstadoTipo();
-// if ($tienePermiso == false) {
-//   echo "</br></br></br></br></br></br>";
-//   echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
-// } else {
+if (!$resultado['permiso']) {
+  $mensaje = $resultado['mensaje'];
+  echo "</br></br></br></br></br></br>";
+  echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+}else{
 ?>
   <div class="container mt-5">
     <h1 style="margin-top: 150px;">Panel de administracion de Compras</h1>
@@ -62,6 +71,6 @@ $abmCompraEstadoTipo = new abmCompraEstadoTipo();
   </table>
 
 <?php
-// }
+}
 include_once '../estructura/footer.php';
 ?>

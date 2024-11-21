@@ -1,6 +1,13 @@
 <?php
 include_once '../../configuracion.php';
+include_once '../../utiles/verificador.php';
+
 $sesion = new session();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
+
 
 $datos = data_submitted();
 $rolSesion = $sesion->getColeccionRol();
@@ -21,10 +28,11 @@ echo "</br></br></br></br></br></br>";
 $abmUsuario = new abmUsuario();
 $abmRol = new abmUsuarioRol();
 $listaUsuario = $abmUsuario->buscar(null);
-if ($idRol !== 1) {
+if (!$resultado['permiso']) {
+  $mensaje = $resultado['mensaje'];
   echo "</br></br></br></br></br></br>";
-  echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
-} else {
+  echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+}else{
 ?>
 
   <div class="container mt-5">

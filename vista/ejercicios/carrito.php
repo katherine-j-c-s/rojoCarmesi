@@ -4,7 +4,14 @@
 //y armo la coleccion correspondiente a compra y se inicializa el estado de la compra
 include_once '../../configuracion.php';
 error_reporting(E_ERROR  | E_PARSE);
+include_once '../../utiles/verificador.php';
+
 $sesion = new session();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
+
 $objRol=$sesion->getRolActivo();
 $idRol=$objRol->getIdRol();
 $datos = data_submitted();
@@ -16,10 +23,11 @@ if (!$sesion->activa()) {
 if (isset($_GET['Message'])) {
   print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
 }
-if ($idRol == 1) {
+if (!$resultado['permiso']) {
+  $mensaje = $resultado['mensaje'];
   echo "</br></br></br></br></br></br>";
-  echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
-} else {
+  echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+}else{
   $listaCarrito = $sesion->getCarrito();
   // print_r($listaCarrito);
 

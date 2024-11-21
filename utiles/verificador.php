@@ -30,15 +30,18 @@ class Verificador {
         
         $datosMR = ['idRol' => $rolActivo->getIdRol()];
         $menuRoles = $menurol->buscar($datosMR);
-        
+
         // Verificar si la página actual está en los menús permitidos
         $tienePermiso = false;
         foreach ($menuRoles as $menuRole) {
             $menuItem = $menu->buscar(['idmenu' => $menuRole->getObjMenu()->getIdMenu()]);
             if (!empty($menuItem)) {
                 $item = $menuItem[0];
-                // Comparar la URL actual con la descripción del menú
-                if (strpos($paginaActual, $item->getMeDescripcion()) !== false) {
+                $link = self::modificarLink($item->getMeDescripcion());
+                $pag = self::modificarLink($paginaActual);
+
+                // Comparar la URL actual con la descripción del menú procesada
+                if (strpos($pag, $link) !== false) {
                     $tienePermiso = true;
                     break;
                 }
@@ -48,30 +51,35 @@ class Verificador {
         if (!$tienePermiso) {
             return [
                 'permiso' => false,
-                'redirect' => 'index.php',
+                'redirect' => '/rojocarmesi/vista/home/index.php',
                 'mensaje' => 'No tiene permisos para acceder a esta página'
             ];
         }
 
         return ['permiso' => true];
     }
-}
 
-// Ejemplo de uso en una página segura:
-function verificarAcceso() {
-    $sesion = new session();
-    $paginaActual = $_SERVER['PHP_SELF'];
-    
-    $resultado = Verificador::verificarPermiso($paginaActual, $sesion);
-    
-    if (!$resultado['permiso']) {
-        if (isset($resultado['mensaje'])) {
-            $mensaje = urlencode($resultado['mensaje']);
-            header("Location: {$resultado['redirect']}?Message={$mensaje}");
-        } else {
-            header("Location: {$resultado['redirect']}");
+    /**
+     * Modifica un enlace eliminando prefijos específicos.
+     *
+     * @param string $link - El enlace a modificar.
+     * @return string - El enlace modificado.
+     */
+    private static function modificarLink($link) {
+        // Si el enlace comienza con "/rojocarmesi/vista/"
+        if (strpos($link, '/rojocarmesi/vista/') === 0) {
+            return substr($link, strlen('/rojocarmesi/vista'));
         }
-        exit;
+    
+        // Si el enlace comienza con "../"
+        if (strpos($link, '../') === 0) {
+            return substr($link, 2);
+        }
+    
+        // Si no coincide con ninguno de los casos, devolver el enlace tal cual
+        return $link;
     }
 }
+
+
 ?>
