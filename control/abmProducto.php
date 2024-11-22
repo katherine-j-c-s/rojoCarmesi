@@ -2,6 +2,35 @@
 
 class abmProducto
 {
+    private $success;
+    private $mensaje;
+
+    public function __construct()
+    {
+        $this->success = true;
+        $this->mensaje = "";
+    }
+
+    public function getSuccess()
+    {
+        return $this->success;
+    }
+
+    public function getMensaje()
+    {
+        return $this->mensaje;
+    }
+
+    public function setSuccess($success)
+    {
+        $this->success = $success;
+    }
+
+    public function setMensaje($mensaje)
+    {
+        $this->mensaje = $mensaje;
+    }
+
     public function subirArchivo($datos)
     {
         $nombreArchivoImagen = $datos . ".jpg";
@@ -159,6 +188,54 @@ class abmProducto
         return $arreglo;
     }
 
+    public function procesarStockProductos(){
+        // Procesar cada producto en el carrito
+        foreach ($_SESSION['carrito'] as $item) {
+            // Buscar el producto en la base de datos
+            $paramBusqueda = ['idProducto' => $item['idProducto']];
+            $productos = self::buscar($paramBusqueda);
+            
+            if (!empty($productos)) {
+                $producto = $productos[0];
+                $stockActual = $producto->getProductoStock();
+                $cantidadComprada = $item['cantidad'];
+                $nuevoStock = $stockActual - $cantidadComprada;
+                
+                // Verificar que haya suficiente stock
+                if ($nuevoStock >= 0) {
+                    // Preparar datos para la actualización
+                    $datosActualizacion = [
+                        'idProducto' => $item['idProducto'],
+                        'productoNombre' => $producto->getProductoNombre(),
+                        'productoDetalle' => $producto->getProductoDetalle(),
+                        'productoStock' => $nuevoStock,
+                        'productoPrecio' => $producto->getProductoPrecio()
+                    ];
+                    
+                    // Actualizar el stock en la base de datos
+                    if (!self::modificacion($datosActualizacion)) {
+                        $this->setSuccess(false);
+                        $this->setMensaje("Error al actualizar el stock del producto: " . $producto->getProductoNombre());
+                    }
+                } else {
+                    $this->setSuccess(false);
+                    $this->setMensaje("Stock insuficiente para el producto: " . $producto->getProductoNombre());
+                }
+            } else {
+                $this->setSuccess(false);
+                $this->setMensaje("Producto no encontrado: " . $item['idProducto']);
+            }
+        }
+
+        // Si todas las actualizaciones fueron exitosas, limpiar el carrito
+        if ($this->getSuccess()) {
+            $this->setSuccess(true);
+            $this->setMensaje("Compra procesada exitosamente");
+        } else {
+            $this->setSuccess(false);
+            $this->setMensaje("Error al procesar la compra");
+        }
+    }
 
     public function accionCrearProducto($datos){
         $busquedaNombreProducto = ['productoNombre' => $datos['productoNombre']];

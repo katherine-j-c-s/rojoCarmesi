@@ -24,7 +24,7 @@ if (!$resultado['permiso']) {
    $mensaje = $resultado['mensaje'];
    echo "</br></br></br></br></br></br>";
    echo "<h4 class='alert alert-danger'>$mensaje</h4>";
-}else{
+} else {
    echo "</br></br></br></br></br></br>";
    $descripcion = "";
    // print_r($datos);

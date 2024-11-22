@@ -1,112 +1,113 @@
 <?php
-class abmCarrito {
-function obtenerProductosEnCarrito()
+class abmCarrito
 {
-    $bd = obtenerConexion();
-    iniciarSesionSiNoEstaIniciada();
-    $sentencia = $bd->prepare("SELECT productos.id, productos.nombre, productos.descripcion, productos.precio
-     FROM productos
-     INNER JOIN carrito_usuarios
-     ON productos.id = carrito_usuarios.id_producto
-     WHERE carrito_usuarios.id_sesion = ?");
-    $idSesion = session_id();
-    $sentencia->execute([$idSesion]);
-    return $sentencia->fetchAll();
-}
-function quitarProductoDelCarrito($idProducto)
-{
-    $bd = obtenerConexion();
-    iniciarSesionSiNoEstaIniciada();
-    $idSesion = session_id();
-    $sentencia = $bd->prepare("DELETE FROM carrito_usuarios WHERE id_sesion = ? AND id_producto = ?");
-    return $sentencia->execute([$idSesion, $idProducto]);
-}
+    private $mensaje;
+    private $success;
 
-function obtenerProductos()
-{
-    $bd = obtenerConexion();
-    $sentencia = $bd->query("SELECT id, nombre, descripcion, precio FROM productos");
-    return $sentencia->fetchAll();
-}
-function productoYaEstaEnCarrito($idProducto)
-{
-    $ids = obtenerIdsDeProductosEnCarrito();
-    foreach ($ids as $id) {
-        if ($id == $idProducto) return true;
+    public function __construct() {
+        $this->mensaje = "";
+        $this->success = true;
     }
-    return false;
-}
-
-function obtenerIdsDeProductosEnCarrito()
-{
-    $bd = obtenerConexion();
-    iniciarSesionSiNoEstaIniciada();
-    $sentencia = $bd->prepare("SELECT id_producto FROM carrito_usuarios WHERE id_sesion = ?");
-    $idSesion = session_id();
-    $sentencia->execute([$idSesion]);
-    return $sentencia->fetchAll(PDO::FETCH_COLUMN);
-}
-
-function agregarProductoAlCarrito($idProducto)
-{
-    // Ligar el id del producto con el usuario a través de la sesión
-    $bd = obtenerConexion();
-    iniciarSesionSiNoEstaIniciada();
-    $idSesion = session_id();
-    $sentencia = $bd->prepare("INSERT INTO carrito_usuarios(id_sesion, id_producto) VALUES (?, ?)");
-    return $sentencia->execute([$idSesion, $idProducto]);
-}
-
-
-function iniciarSesionSiNoEstaIniciada()
-{
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
+    public function getMensaje()
+    {
+        return $this->mensaje;
     }
-}
-
-function eliminarProducto($id)
-{
-    $bd = obtenerConexion();
-    $sentencia = $bd->prepare("DELETE FROM productos WHERE id = ?");
-    return $sentencia->execute([$id]);
-}
-
-function guardarProducto($nombre, $precio, $descripcion)
-{
-    $bd = obtenerConexion();
-    $sentencia = $bd->prepare("INSERT INTO productos(nombre, precio, descripcion) VALUES(?, ?, ?)");
-    return $sentencia->execute([$nombre, $precio, $descripcion]);
-}
-
-function obtenerVariableDelEntorno($key)
-{
-    if (defined("_ENV_CACHE")) {
-        $vars = _ENV_CACHE;
-    } else {
-        $file = "env.php";
-        if (!file_exists($file)) {
-            throw new Exception("El archivo de las variables de entorno ($file) no existe. Favor de crearlo");
+    public function setMensaje($mensaje)
+    {
+        $this->mensaje = $mensaje;
+        return $this;
+    }
+    public function getsuccess()
+    {
+        return $this->success;
+    }
+    public function setsuccess($success)
+    {
+        $this->success = $success;
+        return $this;
+    }
+    public function validarDatosRecibidos()
+    {
+        // Validar datos recibidos
+        if (!isset($_POST['idProducto']) || !isset($_POST['compraItemCantidad'])) {
+            // echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
+            $this->setMensaje("datos Invalidos");
+            $this->setsuccess(false);
         }
-        $vars = parse_ini_file($file);
-        define("_ENV_CACHE", $vars);
     }
-    if (isset($vars[$key])) {
-        return $vars[$key];
-    } else {
-        throw new Exception("La clave especificada (" . $key . ") no existe en el archivo de las variables de entorno");
+    public function verificarProducto(){
+        
+        $idProducto = $_POST['idProducto'];
+
+        $cantidad = max(1, intval($_POST['compraItemCantidad']));
+            // Instanciar controladores
+        $abmProducto = new abmProducto();
+
+        // Buscar el producto
+        $productos = $abmProducto->buscar(['idProducto' => $idProducto]);
+        if (empty($productos)) {
+            // echo json_encode(['success' => false, 'message' => 'Producto no encontrado']);
+            $this->setsuccess(false);
+            $this->setMensaje("Producto no encontrado");
+        }
+
+        $producto = $productos[0];
+
+        // Verificar stock
+        if ($producto->getProductoStock() < $cantidad) {
+            // echo json_encode(['success' => false, 'message' => 'Stock insuficiente']);
+            $this->setsuccess(false);
+            $this->setMensaje("Stock insuficiente");
+        }
+
     }
-}
-function obtenerConexion()
-{
-    $password = obtenerVariableDelEntorno("MYSQL_PASSWORD");
-    $user = obtenerVariableDelEntorno("MYSQL_USER");
-    $dbName = obtenerVariableDelEntorno("MYSQL_DATABASE_NAME");
-    $database = new PDO('mysql:host=localhost;dbname=' . $dbName, $user, $password);
-    $database->query("set names utf8;");
-    $database->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
-    $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $database->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-    return $database;
-}
+
+    public function verificarCarrito(){
+        self::validarDatosRecibidos();
+        self::verificarProducto();
+
+        if($this->getsuccess()){
+            // Buscar el producto
+            $idProducto = $_POST['idProducto'];
+            $abmProducto = new abmProducto();
+            $productos = $abmProducto->buscar(['idProducto' => $idProducto]);
+            $producto = $productos[0];
+
+            $abmProducto = new abmProducto();
+            if (!isset($_SESSION['carrito'])) {
+                $_SESSION['carrito'] = [];
+            }
+            
+            // Verificar si el producto ya está en el carrito
+            $encontrado = false;
+            $idProducto = $_POST['idProducto'];
+            $cantidad = max(1, intval($_POST['compraItemCantidad']));
+            
+            foreach ($_SESSION['carrito'] as &$item) {
+                if ($item['idProducto'] == $idProducto) {
+                    $item['cantidad'] += $cantidad;
+                    $encontrado = true;
+                    break;
+                }
+            }
+            
+            // Si no se encontró, agregar nuevo producto
+            if (!$encontrado) {
+                $arregloArchivos = $abmProducto->obtenerArchivos(md5($producto->getIdProducto()));
+                
+                $_SESSION['carrito'][] = [
+                    'idProducto' => $producto->getIdProducto(),
+                    'nombre' => $producto->getProductoNombre(),
+                    'precio' => $producto->getProductoPrecio(),
+                    'cantidad' => $cantidad,
+                    'imagen' => $arregloArchivos,
+                    'stock' => $producto->getProductoStock()
+                ];
+            }
+            
+            $this->setsuccess(true);
+            $this->setMensaje("Producto agregado al carrito");   
+        }
+    }
+
 }

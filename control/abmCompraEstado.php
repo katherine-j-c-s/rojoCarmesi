@@ -64,6 +64,25 @@ class abmCompraEstado
         return $resp;
     }
 
+    public function enviarMail($idCompra,$idEstadoTipo){
+        
+        $abmCompra = new abmCompra;
+        $compra = $abmCompra->buscar(['idCompra' => $idCompra]);
+
+        $mailUsuario = $compra[0]->getObjUsuario()->getUsMail();
+        $nombreUsuario = $compra[0]->getObjUsuario()->getUsNombre();
+
+        $abmCompraEstadoTipo = new abmCompraEstadoTipo();
+        $compraEstadoTipo = $abmCompraEstadoTipo->buscar(['idCompraEstadoTipo' => $idEstadoTipo]);
+
+        $estadoTipo = $compraEstadoTipo[0]->getCompraEstadoTipoDescripcion();
+
+        //enviamos el mail usando phpMailer
+        $mail = new enviarMail();
+        $mail->newEmail("katherine.contreras@est.fi.uncoma.edu.ar","",$mailUsuario,$nombreUsuario,"Estado de compra Cambiado","El estado de Compra nº $idCompra se ha cambiado a:  $estadoTipo");
+        
+    }
+
     public function modificacion($param)
     {
         $resp = false;

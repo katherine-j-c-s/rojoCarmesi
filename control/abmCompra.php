@@ -2,6 +2,64 @@
 
 class abmCompra
 {
+    private $mensaje;
+    private $success;
+
+    public function __construct() {
+        $this->mensaje = "";
+        $this->success = true;
+    }
+    public function getMensaje()
+    {
+        return $this->mensaje;
+    }
+    public function setMensaje($mensaje)
+    {
+        $this->mensaje = $mensaje;
+        return $this;
+    }
+    public function getsuccess()
+    {
+        return $this->success;
+    }
+    public function setsuccess($success)
+    {
+        $this->success = $success;
+        return $this;
+    }
+    public function verificarStock(){
+        $abmProducto = new abmProducto();
+        // Verificar stock disponible antes de procesar
+        foreach ($_SESSION['carrito'] as $item) {
+            $paramBusqueda = ['idProducto' => $item['idProducto']];
+            $productos = $abmProducto->buscar($paramBusqueda);
+
+            // Verificar si el producto existe
+            if (!empty($productos)) {
+                $producto = $productos[0];
+                $stockActual = $producto->getProductoStock();
+                $cantidadComprada = $item['cantidad'];
+
+                // Verificar si hay stock suficiente
+                if ($stockActual < $cantidadComprada) {
+                    $this->setsuccess(false);
+                    $this->setMensaje("Stock insuficiente para el producto: " . $producto->getProductoNombre());
+                }
+            } else {
+                $this->setsuccess(false);
+                $this->setMensaje("Producto no encontrado: " . $item['idProducto']);
+            }
+        }
+        // Si no hay stock suficiente, mostrar mensaje de error
+        if (!$this->getsuccess()) {
+            $this->setMensaje("Error al verificar stock: " . implode(', ', $errores));
+            echo json_encode([
+                'success' => $this->getsuccess(),
+                'message' => $this->getMensaje()
+            ]);
+            exit;
+        }
+    }
     public function altaCompra($param, $objUsuario)
     {
         //falta instancia de compra estado! y sumar el total de la compra!!
@@ -124,6 +182,31 @@ class abmCompra
             $obj->setear($param['idCompra'], $param['compraFecha'], $objUsuario);
         }
         return $obj;
+    }
+    public function prepararDatos(){
+        // Preparar datos para la compra
+        $datosCompra = [];
+        foreach ($_SESSION['carrito'] as $item) {
+            $datosCompra[] = [
+                'idProducto' => $item['idProducto'],
+                'cantidadCompra' => $item['cantidad']
+            ];
+        }
+        return $datosCompra;
+    }
+
+    public function ObtenerDatosUsuario(){
+        // Obtener objeto usuario
+        $abmUsuario = new abmUsuario();
+        $paramUsuario = ['idUsuario' => $_SESSION['idUsuario']];
+        $listaUsuarios = $abmUsuario->buscar($paramUsuario);
+        if (empty($listaUsuarios)) {
+            $this->setsuccess(false);
+            $this->setMensaje("Error al obtener datos del usuario");
+        }
+
+        $objUsuario = $listaUsuarios[0];
+        return $objUsuario;
     }
 
     /**
