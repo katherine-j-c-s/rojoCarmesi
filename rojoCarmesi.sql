@@ -111,7 +111,7 @@ INSERT INTO menu (menombre, medescripcion, idpadre, medeshabilitado) VALUES
 ('Editar Menu', '../ejercicios/editarMenu.php', 19, NULL),
 ('Editar Usuario', '../ejercicios/editarUsuario.php', 19, NULL),
 ('Mis Compras', '../ejercicios/comprasUsuario', 2, NULL);
-
+('Editar Menu Rol','../ejercicio/editarRolesMenu.php',19,NULL);
 
 
 -- Tabla menurol
@@ -170,7 +170,8 @@ INSERT INTO menu_rol (idmenu, idRol) VALUES
 (21, 2),
 (22, 1),
 (23, 1),
-(24, 3);
+(24, 3),
+(25,1);
 
 
 -- Tabla producto
