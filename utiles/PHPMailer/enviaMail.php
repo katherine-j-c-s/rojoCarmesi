@@ -29,7 +29,7 @@ class enviarMail {
         $this->Port = 587;
         
         $this->mailFrom = "gabriela.contreras@est.fi.uncoma.edu.ar";
-        $this->mailSender = "Rojo carmesi ";
+        $this->mailSender = "Rojo Carmesi";
     }
 
     public function newEmail($mailFrom="", $mailSender="", $mailFor="", $mailRecipientName="", $mailSubject="", $mailBody="") {

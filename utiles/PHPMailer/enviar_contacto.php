@@ -20,8 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $mailer = new enviarMail();
     $resultado = $mailer->newEmail(
-        "", // mailFrom (usará el default)
-        "", // mailSender (usará el default)
+         $email, // mailFrom (usará el default)
+        $name, // mailSender (usará el default)
         "gabriela.contreras@est.fi.uncoma.edu.ar", // mailFor
         "Formulario de Contacto", // mailRecipientName
         "Nuevo mensaje de contacto - Rojo Carmesi", // mailSubject
