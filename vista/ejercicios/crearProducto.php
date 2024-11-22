@@ -1,19 +1,27 @@
 <?php
 include_once '../../configuracion.php';
+include_once '../../utiles/verificador.php';
 
 $sesion = new session();
-$objRol=$sesion->getRolActivo();
-$idRol=$objRol->getIdRol();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
+
+
 
 if ($sesion->activa()) {
     include_once '../estructura/cabeceraSegura.php';
 } else {
-    header('Location: ../home/index.php');
+    header('Location: ./login.php');
 }
-if ($idRol !== 2) {
+
+if (!$resultado['permiso']) {
+    $mensaje = $resultado['mensaje'];
     echo "</br></br></br></br></br></br>";
-    echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
-} else {
+    echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+  }else{
 ?>
 
     <div class="container" style="margin-top: 100px;">

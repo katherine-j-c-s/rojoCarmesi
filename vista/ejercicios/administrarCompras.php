@@ -12,6 +12,13 @@ $resultado = Verificador::verificarPermiso($paginaActual, $sesion);
 $abmCompraEstado = new abmCompraEstado();
 $listaCompras = $abmCompraEstado->buscar(null);
 $abmCompraEstadoTipo = new abmCompraEstadoTipo();
+
+if ($sesion->activa()) {
+  include_once '../estructura/cabeceraSegura.php';
+} else {
+  header('Location: ./login.php');
+}
+
 if (!$resultado['permiso']) {
   $mensaje = $resultado['mensaje'];
   echo "</br></br></br></br></br></br>";

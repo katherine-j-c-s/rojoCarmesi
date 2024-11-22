@@ -8,18 +8,16 @@ $paginaActual = $_SERVER['PHP_SELF'];
 // Verificar permiso
 $resultado = Verificador::verificarPermiso($paginaActual, $sesion);
 
-
 $datos = data_submitted();
 $rolSesion = $sesion->getColeccionRol();
 $objUsuario = $sesion->getObjUsuario();
-$objRol=$sesion->getRolActivo();
-$idRol=$objRol->getIdRol();
 
-if (!$sesion->activa()) {
-  header('Location: index.php');
-} else {
+if ($sesion->activa()) {
   include_once '../estructura/cabeceraSegura.php';
+} else {
+  header('Location: ./login.php');
 }
+
 if (!$resultado['permiso']) {
   $mensaje = $resultado['mensaje'];
   echo "</br></br></br></br></br></br>";

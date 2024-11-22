@@ -1,7 +1,14 @@
 <?php
 include_once '../../configuracion.php';
-// $sesion = new session();
+include_once '../../utiles/verificador.php';
 include_once '../estructura/cabeceraSegura.php';
+
+$sesion = new session();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
 
 $objUsuario = $sesion->getObjUsuario();
 $idUsuario = $objUsuario->getIdUsuario();
@@ -11,14 +18,19 @@ $datos = ['idUsuario' => $idUsuario];
 if (isset($_GET['Message'])) {
   print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
 }
-if ($tienePermiso == false) {
-  echo "</br></br></br></br></br></br>";
-  echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
+
+
+if ($sesion->activa()) {
+    include_once '../estructura/cabeceraSegura.php';
 } else {
-    echo "</br></br></br></br></br></br>";
-if (isset($_GET['Message'])) {
-    print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
+    header('Location: ./login.php');
 }
+
+if (!$resultado['permiso']) {
+    $mensaje = $resultado['mensaje'];
+    echo "</br></br></br></br></br></br>";
+    echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+}else{
 
 ?>
 

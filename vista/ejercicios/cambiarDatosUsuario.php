@@ -9,6 +9,11 @@ $paginaActual = $_SERVER['PHP_SELF'];
 // Verificar permiso
 $resultado = Verificador::verificarPermiso($paginaActual, $sesion);
 
+if ($sesion->activa()) {
+    include_once '../estructura/cabeceraSegura.php';
+} else {
+    header('Location: ./login.php');
+}
 
 if (isset($_GET['Message'])) {
     print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';

@@ -11,22 +11,19 @@ $resultado = Verificador::verificarPermiso($paginaActual, $sesion);
 $datos = data_submitted();
 $rolSesion = $sesion->getColeccionRol();
 $objUsuario = $sesion->getObjUsuario();
-$objRol=$sesion->getRolActivo();
-$idRol=$objRol->getIdRol();
-
-if (!$sesion->activa()) {
-  header('Location: index.php');
-} else {
-  include_once '../estructura/cabeceraSegura.php';
-}
 
 echo "<h4>Usted esta Logueado como: {$objUsuario->getUsNombre()}</h4>";
-
 
 $abmMenu = new abmMenu();
 $listaMenu = $abmMenu->buscar(null);
 $abmMenuRol = new abmMenuRol;
 $listaMenuRol = $abmMenuRol->buscar(null);
+
+if ($sesion->activa()) {
+  include_once '../estructura/cabeceraSegura.php';
+} else {
+  header('Location: ./login.php');
+}
 
 if (!$resultado['permiso']) {
   $mensaje = $resultado['mensaje'];

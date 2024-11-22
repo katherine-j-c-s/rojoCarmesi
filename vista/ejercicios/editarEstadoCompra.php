@@ -1,6 +1,15 @@
 <?php
 include_once '../../configuracion.php';
 include_once '../estructura/cabeceraSegura.php';
+include_once '../../utiles/verificador.php';
+
+$sesion = new session();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
+
 if (isset($_GET['Message'])) {
     print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
   }
@@ -15,13 +24,8 @@ $objCompraEstado = $listaCompraEstado[0];
 
 $idCompraEstado = $objCompraEstado->getIdCompraEstado();
 
-// echo 'OBJ COMPRA ESTADO';
-// print_r($objCompraEstado);
-
 //Obj Compra 
 $objCompra = $objCompraEstado->getObjCompra();
-
-// print_r($objCompra);
 
 //Obj compra estado tipo
 $objCompraEstadoTipo = $objCompraEstado->getObjCompraEstadoTipo();
@@ -32,7 +36,18 @@ $listaColeccionItems = $objCompra->getColeccionItems();
 $idCompraEstadoTipo = $objCompraEstado->getObjCompraEstadoTipo()->getIdCompraEstadoTipo();
 //producto
 
-// print_r($listaCompraItems);
+
+if ($sesion->activa()) {
+    include_once '../estructura/cabeceraSegura.php';
+} else {
+    header('Location: ./login.php');
+}
+
+if (!$resultado['permiso']) {
+    $mensaje = $resultado['mensaje'];
+    echo "</br></br></br></br></br></br>";
+    echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+}else{
 
 ?>
 
@@ -105,5 +120,6 @@ $idCompraEstadoTipo = $objCompraEstado->getObjCompraEstadoTipo()->getIdCompraEst
   
 </div>
 <?php
+}
 include_once '../estructura/footer.php';
 ?>

@@ -2,7 +2,14 @@
 include_once '../../configuracion.php';
 // $sesion = new session();
 include_once '../estructura/cabeceraSegura.php';
+include_once '../../utiles/verificador.php';
 
+$sesion = new session();
+$paginaActual = $_SERVER['PHP_SELF'];
+
+// Verificar permiso
+
+$resultado = Verificador::verificarPermiso($paginaActual, $sesion);
 $objUsuario = $sesion->getObjUsuario();
 $idUsuario = $objUsuario->getIdUsuario();
 $abmCompra = new abmCompra();
@@ -11,16 +18,20 @@ $datos = ['idUsuario' => $idUsuario];
 //Buscamos las compras del usuario Logueado
 $listaCompras = $abmCompra->buscar($datos);
 
-// print_r($listaCompras);
-
+if ($sesion->activa()) {
+  include_once '../estructura/cabeceraSegura.php';
+} else {
+  header('Location: ./login.php');
+}
 
 if (isset($_GET['Message'])) {
   print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
 }
-// if ($tienePermiso == false) {
-//   echo "</br></br></br></br></br></br>";
-//   echo "<h4 class='alert alert-danger'>Usted no tiene Permisos para esta seccion</h4>";
-// } else {
+if (!$resultado['permiso']) {
+  $mensaje = $resultado['mensaje'];
+  echo "</br></br></br></br></br></br>";
+  echo "<h4 class='alert alert-danger'>$mensaje</h4>";
+}else{
 ?>
   <div class="container" style="margin-top: 100px;">
     <h1>El historial de compras en nuestra tienda!</h1>
@@ -71,6 +82,6 @@ if (isset($_GET['Message'])) {
   </table>
 
 <?php
-// }
+}
 include_once '../estructura/footer.php';
 ?>

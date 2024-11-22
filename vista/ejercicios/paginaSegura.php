@@ -8,8 +8,7 @@ if (!$sesion->activa()) {
     echo "no hay sesion activa";
     header('Location: login.php');
 }else{
-    
-    include_once '../estructura/cabeceraSegura.php';
+    header('Location: ./login.php');
 }
 if (isset($_GET['Message'])) {
     print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';
