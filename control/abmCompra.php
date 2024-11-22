@@ -77,6 +77,7 @@ class abmCompra
 
                 $cantidadAdescontar = $datosCompraItem['compraItemCantidad'];
 
+                //se resta la cantidad comprada al stock actual
                 $nuevoStock['productoStock'] = $cantidadActual - $cantidadAdescontar;
                 $datosProducto = [
                     'idProducto' => $producto['idProducto'],
@@ -85,7 +86,8 @@ class abmCompra
                     'productoDetalle' => $productoDetalle,
                     'productoStock' => $nuevoStock['productoStock']
                 ];
-
+                
+                //se actualiza el stock del producto
                 $objabmProducto->modificacion($datosProducto);
 
                 $datosNuevaCompraItem = [

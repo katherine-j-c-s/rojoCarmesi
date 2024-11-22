@@ -13,7 +13,7 @@ if (!isset($_SESSION['carrito']) || empty($_SESSION['carrito'])) {
     ]);
     exit;
 }
-
+//crea un objeto de la clase abmCompra y abmProducto 
 $abmCompra = new abmCompra();
 $abmProducto = new abmProducto();
 $actualizacionesExitosas = true;
@@ -24,11 +24,13 @@ foreach ($_SESSION['carrito'] as $item) {
     $paramBusqueda = ['idProducto' => $item['idProducto']];
     $productos = $abmProducto->buscar($paramBusqueda);
 
+    // Verificar si el producto existe
     if (!empty($productos)) {
         $producto = $productos[0];
         $stockActual = $producto->getProductoStock();
         $cantidadComprada = $item['cantidad'];
 
+        // Verificar si hay stock suficiente
         if ($stockActual < $cantidadComprada) {
             $actualizacionesExitosas = false;
             $errores[] = "Stock insuficiente para el producto: " . $producto->getProductoNombre();
@@ -38,7 +40,7 @@ foreach ($_SESSION['carrito'] as $item) {
         $errores[] = "Producto no encontrado: " . $item['idProducto'];
     }
 }
-
+// Si no hay stock suficiente, mostrar mensaje de error
 if (!$actualizacionesExitosas) {
     echo json_encode([
         'success' => false,
@@ -94,7 +96,7 @@ try {
             'message' => 'Compra procesada exitosamente'
         ]);
     } else {
-        // Rollback transaction
+        // Rollback transaction 
         $db->rollBack();
         echo json_encode([
             'success' => false,
@@ -102,7 +104,7 @@ try {
         ]);
     }
 } catch (Exception $e) {
-    // Ensure rollback in case of any exception
+    // se asegura que si algo falla se reviertan todas las operaciones
     if ($db->inTransaction()) {
         $db->rollBack();
     }
