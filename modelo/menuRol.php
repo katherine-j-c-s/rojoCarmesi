@@ -129,14 +129,14 @@ class menuRol
     }
 
 
-    public function insertar()
+    public function insertar($idMenu,$idRol)
     {
         $base = new BaseDatos();
         $resp = false;
-        $objMenu = $this->getObjMenu();
-        $idMenu = $objMenu->getIdMenu();
-        $objRol = $this->getObjRol();
-        $idRol = $objRol->getIdRol();
+        // $objMenu = $this->getObjMenu();
+        // $idMenu = $objMenu->getIdMenu();
+        // $objRol = $this->getObjRol();
+        // $idRol = $objRol->getIdRol();
         $sql = "INSERT INTO menurol(idmenu, idRol) VALUES ('$idMenu', '$idRol')";
 
         if ($base->Iniciar()) {
@@ -153,14 +153,14 @@ class menuRol
         return $resp;
     }
 
-    public function modificar()
+    public function modificar($idMenu,$idRol)
     {
         $resp = false;
         $base = new BaseDatos();
-        $objMenu = $this->getObjMenu();
-        $idMenu = $objMenu->getIdMenu();
-        $objRol = $this->getObjRol();
-        $idRol = $objRol->getIdRol();
+        // $objMenu = $this->getObjMenu();
+        // $idMenu = $objMenu->getIdMenu();
+        // $objRol = $this->getObjRol();
+        // $idRol = $objRol->getIdRol();
         $sql = "UPDATE menurol SET idmenu = '$idMenu', idRol = '$idRol' WHERE idmenu = '$idMenu' AND idRol = '$idRol'";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
@@ -174,14 +174,14 @@ class menuRol
         return $resp;
     }
 
-    public function eliminar()
+    public function eliminar($idMenu,$idRol)
     {
         $base = new BaseDatos();
         $resp = false;
-        $objMenu = $this->getObjMenu();
-        $idMenu = $objMenu->getIdMenu();
-        $objRol = $this->getObjRol();
-        $idRol = $objRol->getIdRol();
+        // $objMenu = $this->getObjMenu();
+        // $idMenu = $objMenu->getIdMenu();
+        // $objRol = $this->getObjRol();
+        // $idRol = $objRol->getIdRol();
         if ($base->Iniciar()) {
             $sql = "DELETE FROM menurol WHERE idmenu = '$idMenu' AND idRol = '$idRol'";
             if ($base->Ejecutar($sql)) {

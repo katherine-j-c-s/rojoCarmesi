@@ -34,9 +34,6 @@ if (!$resultado['permiso']) {
 
   <div class="container mt-5">
     <h1>Panel de administracion de Menu</h1>
-    <a class=" btn btn-dark text-white" href="editarMenu.php" role="button">
-      Editar Menu
-    </a>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -46,8 +43,9 @@ if (!$resultado['permiso']) {
           <th scope="col" class="text-center">Sub Menu de</th>
           <th scope="col" class="text-center">Rol asignado</th>
           <th scope="col" class="text-center">Estado</th>
-          <th scope="col" class="text-center">Editar Datos<th>
-          
+          <th scope="col" class="text-center">Editar Roles</th>
+          <th scope="col" class="text-center">Editar Menu</th>
+          <th scope="col" class="text-center">Deshabilitar Menu</th>
         </tr>
       </thead>
       <?php
@@ -67,8 +65,7 @@ if (!$resultado['permiso']) {
           if($objPadre == null){
             echo '<td class="text-center" style="width:200px;">' . "Menu Principal". '</td>';
           }else{
-                  $objPadre = $objMenu->getObjMenu();
-                  echo '<td class="text-center" style="width:200px;">' . $objPadre->getMenombre() . '</td>';     
+            echo '<td class="text-center" style="width:200px;">' . $objPadre->getMenombre() . '</td>';     
           }
           //busco los roles para asignados a ese menu
 
@@ -81,23 +78,31 @@ if (!$resultado['permiso']) {
             }
           }
           echo '<td class="text-center" style="width:200px;">' . $descripcion . '</td>';
-          '</tr>';
           
           if ($objMenu->getMedeshabilitado() == null || $objMenu->getMedeshabilitado() == "0000-00-00 00:00:00") {
             echo "<td class='text-center'><i class='far fa-check-circle'></i></td>";
           } else {
             echo "<td class='text-center'><i class='far fa-times-circle'></i></td>";
           }
+
+          // New form for editing menu roles
+          echo "<form action='editarRolesMenu.php' method='post'>
+            <td class='text-center'>
+            <input name='idmenu' id='idmenu' type='hidden' value='$idMenu'>
+            <button class='btn btn-dark' type='submit'><i class='fas fa-user-edit'></i>
+            </button></td></form>";
+
           echo "<form action='editarMenu.php' method='post'>
-        <td class='text-center'>
-        <input name='idmenu' id='idmenu' type='hidden' value='$idMenu'>
-        <button class='btn btn-dark' type='submit'><i class='fas fa-edit'></i>
-        </button></td></form>
-        <form action='../accion/deshabilitarMenu.php' method='post'>
-        <td class='text-center'>
-        <input name='idmenu' id='idmenu' type='hidden' value='$idMenu'>
-        <button class=' btn btn-dark' type='submit'>
-        <i class='fas fa-user-times'></i></i></button></td></form></tr>";
+            <td class='text-center'>
+            <input name='idmenu' id='idmenu' type='hidden' value='$idMenu'>
+            <button class='btn btn-dark' type='submit'><i class='fas fa-edit'></i>
+            </button></td></form>";
+
+          echo "<form action='../accion/deshabilitarMenu.php' method='post'>
+            <td class='text-center'>
+            <input name='idmenu' id='idmenu' type='hidden' value='$idMenu'>
+            <button class='btn btn-danger' type='submit'>
+            <i class='fas fa-user-times'></i></button></td></form></tr>";
         }
         if (isset($_GET['Message'])) {
           print '<script type="text/javascript">alert("' . $_GET['Message'] . '");</script>';

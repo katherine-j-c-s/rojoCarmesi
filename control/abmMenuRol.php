@@ -28,6 +28,51 @@ class abmMenuRol{
         return $resp;
     }
 
+    public function editarRolesMenu($roles, $idMenu){
+        $idRolesMenu = [];
+        $mensaje = "";
+        $menuRol = new menuRol();
+
+        // Buscar roles asociados al menú actual
+        $sql = "idmenu = " . $idMenu;
+        $objMenuRol = $menuRol->listar($sql);
+
+        // Obtener los IDs de los roles asociados
+        foreach ($objMenuRol as $menuRol) {
+            $idRolesMenu[] = $menuRol->getObjRol()->getIdRol();
+        }
+
+        // Comparar la cantidad de roles
+        if (count($roles) > count($idRolesMenu)) {
+            foreach ($roles as $idRol) {
+                // Verificar si $idRol está en $idRolesMenu
+                if (!in_array($idRol, $idRolesMenu)) {
+                   $menuRol->insertar($idMenu,$idRol);
+                   $mensaje.= "lógica para insertar el nuevo rol ID $idRol  al menú";
+                }
+            }
+        }elseif (count($roles) < count($idRolesMenu))  {
+            foreach ($idRolesMenu as $idRolMenu) {
+                // Verificar si $idRol está en $idRolesMenu
+                if (!in_array($idRolMenu, $roles)) {
+                    $menuRol->eliminar($idMenu,$idRolMenu);
+                    $mensaje.= "se ha eliminado el idRolMenu $idRolMenu de los rol Menu";
+                }
+            }
+        } else {
+            // Si tienen la misma cantidad, verificar manualmente los elementos
+            foreach ($idRolesMenu as $idRolMenu) {
+                $menuRol->eliminar($idMenu,$idRolMenu);
+            }
+            foreach ($roles as $idRol) {
+                $menuRol->insertar($idMenu,$idRol);
+                $mensaje.= "lógica para Cambiar el rol ID $idRol  al menú";
+            }
+        }
+
+        return $mensaje; // Retornar mensajes con las acciones realizadas
+    }
+
     /**
      * 
      * @param array $param
