@@ -174,28 +174,61 @@ class abmCompraEstado
         return $arreglo;
     }
 
-    public function editarEstadoCompraCliente($datos){
-        $abmcompraEstadoTipo=new abmCompraEstadoTipo();
-        $datosCompraEstadoTipo=['idCompraEstadoTipo'=>4];
-        $listaCompraEstadoTipo=$abmcompraEstadoTipo->buscar($datosCompraEstadoTipo);
-        $objCompraEstadoTipo=$listaCompraEstadoTipo[0];
+    public function editarEstadoCompraCliente($datos)
+    {
+        $abmcompraEstadoTipo = new abmCompraEstadoTipo();
+        $datosCompraEstadoTipo = ['idCompraEstadoTipo' => 4];
+        $listaCompraEstadoTipo = $abmcompraEstadoTipo->buscar($datosCompraEstadoTipo);
+        echo $abmcompraEstadoTipo->buscar($datosCompraEstadoTipo);
+        $objCompraEstadoTipo = $listaCompraEstadoTipo[0];
 
-        $listaCompraEstado=$this->buscar($datos);
-        $objCompraEstado=$listaCompraEstado[0];
+        $listaCompraEstado = $this->buscar($datos);
+        $objCompraEstado = $listaCompraEstado[0];
 
+        //actualizar stock  
+        $objCompra = $objCompraEstado->getObjCompra();
+        $coleccionItems = $objCompra->getColeccionItems();
+        
+        foreach ($coleccionItems as $product) {
+            $item = $product->getObjProducto();
+            $cantidadComprada = $product->getCompraItemCantidad();
+            $objabmProducto = new abmProducto();
+            $datosProductoBusqueda = ['idProducto' => $item->getIdProducto()];
+            $listaProductos = $objabmProducto->buscar($datosProductoBusqueda);
+            $objProducto = $listaProductos[0];
+    
+            $nombreProducto = $objProducto->getProductoNombre();
+            $productoDetalle = $objProducto->getProductoDetalle();
+            $productoPrecio = $objProducto->getProductoPrecio();
+            $cantidadActual = $objProducto->getProductoStock();
+    
+            // En vez de restar, sumamos la cantidad al stock actual
+            $nuevoStock = $cantidadActual + $cantidadComprada;
+            
+            $datosProducto = [
+                'idProducto' => $item->getIdProducto(),
+                'productoNombre' => $nombreProducto,
+                'productoPrecio' => $productoPrecio,
+                'productoDetalle' => $productoDetalle,
+                'productoStock' => $nuevoStock
+            ];
+            
+            $objabmProducto->modificacion($datosProducto);
+        }
 
-        $objCompra=$objCompraEstado->getObjCompra();
-        $idCompraEstado=$objCompraEstado->getIdCompraEstado();
-        $fechaInicio=$objCompraEstado->getCompraEstadoFechaInicial();
-        $idCompra=$objCompra->getIdCompra();
-
-        $idCompraEstadoTipo=$objCompraEstadoTipo->getIdCompraEstadoTipo();
-        $datosCompraEstado=['idCompraEstado'=>$idCompraEstado,
-                                'idCompra'=>$idCompra,
-                                'idCompraEstadoTipo'=>$idCompraEstadoTipo,
-                                'compraEstadoFechaInicial'=>$fechaInicio,
-                                'compraEstadoFechaFinal'=> date('Y-m-d h-m-s')
-                                ];
+        $idCompraEstado = $objCompraEstado->getIdCompraEstado();
+        $fechaInicio = $objCompraEstado->getCompraEstadoFechaInicial();
+        $idCompra = $objCompra->getIdCompra();
+        $idCompraEstadoTipo = $objCompraEstadoTipo->getIdCompraEstadoTipo();
+        
+        $datosCompraEstado = [
+            'idCompraEstado' => $idCompraEstado,
+            'idCompra' => $idCompra,
+            'idCompraEstadoTipo' => $idCompraEstadoTipo,
+            'compraEstadoFechaInicial' => $fechaInicio,
+            'compraEstadoFechaFinal' => date('Y-m-d h:i:s')
+        ];
+        
         return $datosCompraEstado;
     }
 
